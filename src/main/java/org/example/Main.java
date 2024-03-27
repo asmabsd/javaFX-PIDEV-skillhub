@@ -1,5 +1,7 @@
 package org.example;
 
+import entities.User;
+import services.ServiceUser;
 import entities.event;
 import entities.promotion;
 import services.ServiceEvent;
@@ -41,5 +43,19 @@ public class Main {
         } catch (SQLException e) {
             System.out.println("Error adding promotion: " + e.getMessage());
         }
+
+        // Ajout d'un utilisateur
+
+        User user = new User();
+        user.setEmail("test@example.com");
+        user.setPassword("password123");
+
+        user.setFirstName("John");
+        user.setLastName("Doe");
+
+        // Ajout de l'utilisateur
+        ServiceUser userService = new ServiceUser();
+        userService.ajouter(user);
+        System.out.println("User added successfully !");
     }
 }

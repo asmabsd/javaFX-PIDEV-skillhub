@@ -32,4 +32,8 @@ public class MyDatabase {
         return this.cnx;
     }
 
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> e344030054d549f5ae6c05ae55b38118fc572713
