@@ -1,4 +1,4 @@
-package org.example;
+/*package org.example;
 
 import entities.User;
 import services.ServiceUser;
@@ -59,3 +59,4 @@ public class Main {
         System.out.println("User added successfully !");
     }
 }
+*/

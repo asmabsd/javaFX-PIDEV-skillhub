@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+
+<AnchorPane prefHeight="436.0" prefWidth="450.0" style="-fx-background-color: blue;" styleClass="dash__container-card2" stylesheets="@../css/SideNavBar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ReclamationController">
+   <children>
+      <Pane layoutX="29.0" layoutY="36.0" prefHeight="380.0" prefWidth="391.0" styleClass="dash__container-card2" stylesheets="@../css/SideNavBar.css">
+         <children>
+            <Label layoutX="44.0" layoutY="35.0" prefHeight="25.0" prefWidth="87.0" text="id" />
+            <TextField fx:id="idlabel" layoutX="147.0" layoutY="35.0" prefHeight="25.0" prefWidth="175.0" />
+            <Label layoutX="44.0" layoutY="75.0" prefHeight="25.0" prefWidth="87.0" text="Objet" />
+            <TextField fx:id="objetlabel" layoutX="148.0" layoutY="75.0" prefHeight="25.0" prefWidth="175.0" />
+            <Label layoutX="51.0" layoutY="121.0" prefHeight="25.0" prefWidth="87.0" text="Contenu" />
+            <TextField fx:id="contenuelabel" layoutX="150.0" layoutY="121.0" prefHeight="25.0" prefWidth="175.0" />
+            <Label layoutX="12.0" layoutY="190.0" prefHeight="25.0" prefWidth="126.0" text="datereclamation" />
+            <DatePicker fx:id="datereclamationlabel" layoutX="147.0" layoutY="190.0" prefHeight="25.0" prefWidth="184.0" />
+            <Label layoutX="31.0" layoutY="156.0" prefHeight="25.0" prefWidth="87.0" text="Statut" />
+            <TextField fx:id="statutlabel" layoutX="147.0" layoutY="156.0" prefHeight="25.0" prefWidth="175.0" />
+            <Button layoutX="170.0" layoutY="270.0" mnemonicParsing="false" onAction="#ajouterreclamation" text="save" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

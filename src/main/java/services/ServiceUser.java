@@ -1,4 +1,4 @@
-package services;
+/*package services;
 
 import entities.User;
 import utils.MyDatabase;
@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ServiceUser implements IService<User> {
-    static Connection cnx = MyDatabase.getInstance().getCnx();
+    static Connection cnx = MyDatabase.getInstance().getConnection();
 
     @Override
     public void ajouter(User user) {
@@ -109,4 +109,4 @@ public class ServiceUser implements IService<User> {
         }
         return users;
     }
-}
+}*/

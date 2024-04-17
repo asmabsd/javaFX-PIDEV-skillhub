@@ -7,8 +7,8 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ServicePromotion implements IService<promotion> {
-    static Connection cnx = MyDatabase.getInstance().getCnx();
+/*public class ServicePromotion implements IService<promotion> {
+   /* static Connection cnx = MyDatabase.getInstance().getCnx();
 
     public ServicePromotion() {
         System.out.println("Connected successfully !");
@@ -113,4 +113,4 @@ public class ServicePromotion implements IService<promotion> {
         }
         return promotions;
     }
-}
+}*/

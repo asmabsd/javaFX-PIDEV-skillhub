@@ -7,8 +7,8 @@ import java.sql.*;
 import java.util.HashSet;
 import java.util.Set;
 
-public class ServiceEvent implements IService<event> {
-    static Connection cnx = MyDatabase.getInstance().getCnx();
+/*public class ServiceEvent implements IService<event> {
+    /*static Connection cnx = MyDatabase.getInstance().getCnx();
 
     public ServiceEvent() {
         System.out.println("Connected successfully !");
@@ -135,4 +135,4 @@ public class ServiceEvent implements IService<event> {
         }
         return events;
     }
-}
+}*/

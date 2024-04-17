@@ -1,9 +1,21 @@
 package tests;
+
+import java.time.format.DateTimeFormatter;
+import entities.Reclamation;
+import services.ServiceReclamation;
+import utils.MyDatabase;
+
+import java.sql.SQLException;
+
 public class main {
+    public static void main(String[] args) {
+        // Créer une instance de LocalDate avec la date spécifique
+       // LocalDate dateReclamation = LocalDate.of(2024, 4, 16);
 
-<<<<<<< HEAD
+        // Formatter la date au format "YYYY-MM-DD"
 
 
-=======
->>>>>>> e344030054d549f5ae6c05ae55b38118fc572713
-}
+    //MyDatabase myDataBase = new MyDatabase();
+
+
+}}
