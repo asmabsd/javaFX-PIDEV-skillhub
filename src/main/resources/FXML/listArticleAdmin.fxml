@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Text?>
+
+<Pane fx:id="content_area" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="622.0" prefWidth="1084.0" styleClass="userProductsContainer" stylesheets="@../css/SideNavBar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.ListArticleAdminController">
+    <children>
+        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="77.0" prefWidth="1084.0">
+            <children>
+                  <Text fx:id="VoirComment" fill="#7b88ff"  strokeType="OUTSIDE" strokeWidth="0.0" styleClass="searchText" text="Consulter la liste des commentaires" textAlignment="CENTER" wrappingWidth="203.8984375" />
+                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" translateX="117.0">
+
+                </ImageView>
+                <TextField fx:id="ArticlesclientsfSearchInput" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  prefWidth="221.0" styleClass="product__list-searchInput" translateX="70.0">
+                    <padding>
+                        <Insets left="37.0" right="40.0" />
+                    </padding>
+                </TextField>
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="searchText" text="Trié par :" translateX="125.0" />
+                  <ComboBox fx:id="categorieInput" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="40.0" prefWidth="145.0" promptText="Categories" styleClass="product__add-comboBox" stylesheets="@../css/SideNavBar.css" translateX="135.0" />
+                <HBox fx:id="articleaddBtn" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  prefHeight="40.0" prefWidth="186.0" styleClass="onlyOfferItemsBtn" translateX="180.0">
+                    <children>
+                        <Text fill="#32594a" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="onlyOfferItemsBtnText" text="Nouvel article" />
+                    </children>
+                </HBox>
+            </children>
+            <padding>
+                <Insets left="15.0" />
+            </padding>
+        </HBox>
+        <ScrollPane fx:id="listArtScroll" layoutX="11.0" layoutY="84.0" prefHeight="521.0" prefWidth="1068.0" styleClass="product-card-scrollPane" stylesheets="@../css/SideNavBar.css">
+         <content>
+                <GridPane fx:id="ArtListContainer" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="1047.0" translateX="10.0" translateY="10.0">
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+         </content>
+        </ScrollPane>
+    </children>
+</Pane>

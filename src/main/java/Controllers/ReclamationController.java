@@ -7,11 +7,16 @@ import entities.Reclamation;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import utils.MyDatabase;
 
 import static java.sql.DriverManager.getConnection;
@@ -80,6 +86,9 @@ public class ReclamationController implements Initializable {
     }
     @FXML
     private Button deletebtn;
+
+    @FXML
+    private Button updatebtn;
     int id=0;
     @FXML
     public Reclamation getData(javafx.scene.input.MouseEvent mouseEvent) {
@@ -139,6 +148,12 @@ public class ReclamationController implements Initializable {
 
 
     }
+    @FXML
+    void updatereclamation(ActionEvent event) {
+
+    }
+
+
 
     public void ajouterreclamation(javafx.event.ActionEvent actionEvent) {
         String insert = "insert into reclamation (id, objet, contenu, statut, date_reclamation) values (?, ?, ?, ?, ?)";
@@ -170,5 +185,95 @@ public class ReclamationController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @FXML
+    void updatecredit(javafx.event.ActionEvent event) {
+        String update = "update reclamation set id = ?, objet = ?, contenu= ?, statut= ?, date_reclamation = ? where id = ?" ;
+        connection = MyDatabase.getInstance().getConnection();
+
+        try {
+            st=connection.prepareStatement(update);
+            st.setInt(1, 1); // Static value for user_id
+            st.setInt(2, Integer.parseInt(idlabel.getText())); // id_client
+            st.setDouble(3, Double.parseDouble(objetlabel.getText())); // montant
+            st.setDouble(4, Double.parseDouble(contenuelabel.getText())); // taux
+            st.setDate(5, java.sql.Date.valueOf(statutlabel.getText())); // datedebut
+            st.setDate(4, java.sql.Date.valueOf(datereclamationlabel.getValue())); // date_reclamation
+            
+
+            st.executeUpdate();
+            System.out.println(id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void switchtoscenupdatecredit(javafx.scene.input.MouseEvent mouseEvent) {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/updatereclamation.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Get the controller after loading the FXML file
+        updatereclamationcontroller updatereclamationcontroller = loader.getController();
+
+        // Get the selected credit
+        Reclamation rec = getData(mouseEvent);
+
+        // Check if a credit is selected
+        if (rec != null) {
+            // Initialize the data in the updateCreditController
+            updatereclamationcontroller.initData(rec);
+
+            // Set the scene
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            // Handle the case where no credit is selected
+            System.out.println("No reclamation selected.");
+        }
+
+    }
+    @FXML
+    void switchupdaterec(javafx.scene.input.MouseEvent mouseEvent) {
+        System.out.println("f");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/updatereclamation.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        // Get the controller after loading the FXML file
+        updatereclamationcontroller updatereclamationcontroller = loader.getController();
+
+        // Get the selected credit
+        Reclamation rec = getData(mouseEvent);
+
+        // Check if a credit is selected
+        if (rec != null) {
+            // Initialize the data in the updateCreditController
+            updatereclamationcontroller.initData(rec);
+
+            // Set the scene
+            Stage stage = (Stage) ((Node) mouseEvent.getSource()).getScene().getWindow();
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } else {
+            // Handle the case where no credit is selected
+            System.out.println("No credit selected.");
+        }
+
+    }
+
+    public void updatereclamation(javafx.event.ActionEvent actionEvent) {
     }
 }

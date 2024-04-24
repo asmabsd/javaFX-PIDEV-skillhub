@@ -7,13 +7,15 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
 
-public interface IService <T>{
+public interface IServiceReclamation<T>{
 
 
 
 
     public void ajouter(T t) throws SQLException;
 
+
+    void supprimer(Reclamation reclamation) throws SQLException;
 
     public void modifier(T t) throws SQLException;
 

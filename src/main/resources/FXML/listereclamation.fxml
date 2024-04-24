@@ -22,6 +22,9 @@
             </TableView>
          </children>
       </VBox>
-      <Button layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#deletereclamation" text="delete" />
+      <Button fx:id="deletebtn" layoutX="93.0" layoutY="14.0" mnemonicParsing="false" onAction="#deletereclamation" text="delete" />
+      <Button fx:id="updatebtn" layoutX="163.0" layoutY="14.0" mnemonicParsing="false" onAction="#updatereclamation" onMouseClicked="#switchupdaterec" text="update" />
+      
+       
    </children>
 </AnchorPane>

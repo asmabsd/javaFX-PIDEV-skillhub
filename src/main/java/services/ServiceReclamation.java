@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ServiceReclamation implements IService<Reclamation> {
+public class ServiceReclamation implements IServiceReclamation<Reclamation> {
     Connection connection;
 
     public ServiceReclamation() {
@@ -23,6 +23,11 @@ public class ServiceReclamation implements IService<Reclamation> {
         Statement statement = connection.createStatement();
         statement.executeUpdate(req);
         System.out.println("reclamtion ajoute");
+
+    }
+
+    @Override
+    public void supprimer(Reclamation reclamation) throws SQLException {
 
     }
 
