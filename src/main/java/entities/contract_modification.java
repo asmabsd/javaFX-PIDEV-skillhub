@@ -1,2 +1,4 @@
-package entities;public class contract_modification {
+package entities;
+
+public class contract_modification {
 }

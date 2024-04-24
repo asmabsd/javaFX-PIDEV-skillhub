@@ -1,2 +1,4 @@
-package entities;public class reclamation {
+package entities;
+
+public class reclamation {
 }

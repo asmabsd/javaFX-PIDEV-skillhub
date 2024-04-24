@@ -1,5 +1,6 @@
 package entities;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,6 +20,22 @@ public class User {
     private int rate;
     private List<String> language = new ArrayList<>();
     private String companyName;
+
+    public User(int userId) {
+    }
+
+
+    public static User getUserById(String UserIdValue) throws SQLException {
+        User u = User.getUserById(UserIdValue);
+        if (u == null) {
+            throw new SQLException("Organisation not found for ID: " + UserIdValue);
+        }
+        return u;
+    }
+
+
+
+
 
     public String[] getRoles() {
         return roles;

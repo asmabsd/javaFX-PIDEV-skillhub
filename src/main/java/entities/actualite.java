@@ -1,2 +1,4 @@
-package entities;public class actualite {
+package entities;
+
+public class actualite {
 }

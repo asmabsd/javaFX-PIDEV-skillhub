@@ -1,2 +1,4 @@
-package entities;public class contrat_posted_jobs {
+package entities;
+
+public class contrat_posted_jobs {
 }

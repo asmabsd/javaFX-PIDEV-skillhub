@@ -1,2 +1,4 @@
-package entities;public class reset_password_request {
+package entities;
+
+public class reset_password_request {
 }
