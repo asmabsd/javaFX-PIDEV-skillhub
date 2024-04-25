@@ -1,0 +1,15 @@
+
+L
+java:S3740"/Provide the parametrized type for this generic.(ØÂÅ8‚·øøğ1
+Ÿ
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬çæ8ÑÜÈÿğ1
+D
+java:S1905'"'Remove this unnecessary cast to "List".(ü¶Ñå8š©›úğ1
+b
+java:S1117*"FRename "postedJobsListView" which hides the field declared at line 20.(Éã»{8š©›úğ1
+f
+java:S6355€"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš8öÜÈÿğ1
+S
+java:S1133"5Do not forget to remove this deprecated code someday.(¬çæ8öÜÈÿğ1
+F
+java:S1123"(Add the missing @deprecated Javadoc tag.(¬çæ8öÜÈÿğ1
