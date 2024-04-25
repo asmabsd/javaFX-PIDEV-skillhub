@@ -1,4 +1,5 @@
 package entities;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,39 @@ public class User {
     private List<String> language = new ArrayList<>();
     private String companyName;
 
+    public User(String firstName, String lastName, String email, int phoneNumber, String companyName, String companyDescription) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phoneNumber;
+        this.companyName = companyName;
+        this.companyDescription = companyDescription;
+    }
+    public void setRolesAsJson(String rolesArray) {
+        Gson gson = new Gson();
+        this.roles = new String[]{gson.toJson(rolesArray)};
+    }
+    public User(int id, String email, String roles, String hashedPassword, String firstName, String lastName, String profilePicture, String jobTitle, String professionalOverview, String expertise, int phone, String companyName, String companyDescription, String industry, String companyWebsite, String companyLogo) {
+        this.id = id;
+        this.email = email;
+        this.setRolesAsJson(roles);
+        this.password = hashedPassword;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.profilePicture = profilePicture;
+        this.jobTitle = jobTitle;
+        this.professionalOverview = professionalOverview;
+        this.expertise = expertise;
+        this.phone = phone;
+        this.companyName = companyName;
+        this.companyDescription = companyDescription;
+        this.industry = industry;
+        this.companyWebsite = companyWebsite;
+        this.companyLogo = companyLogo;
+    }
+
+
+
     public String[] getRoles() {
         return roles;
     }
@@ -35,13 +69,27 @@ public class User {
     private String resetToken;
     private String lastLogin;
 
-    public User(int id,String email, String password, String firstName, String lastName) {
+    public User(String email, String password, String firstName, String lastName) {
         this.email = email;
-        this.id = id;
+        this.id = -1; // Default value for the ID, indicating it hasn't been set yet
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
     }
+
+    // Constructor with ID parameter
+    public User(int id, String email, String password, String firstName, String lastName) {
+        this(email, password, firstName, lastName); // Call the other constructor to initialize common fields
+        this.id = id; // Assign the provided ID
+    }
+    public User(int id, String email, String firstName, String lastName) {
+        this.id = id;
+        this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+
 
     public int getId() {
         return id;
@@ -57,7 +105,29 @@ public class User {
     }
 
 
+    public void setFreelancerRole() {
+        this.roles = new String[]{"ROLE_FREELANCER"};
+    }
 
+    public String getRolesArrayAsJson() {
+        Gson gson = new Gson();
+        return gson.toJson(roles);
+    }
+
+    public String getRolesAsJson() {
+        // Use Gson to convert the roles array to JSON
+        Gson gson = new Gson();
+        return gson.toJson(roles);
+
+    }
+
+    public void setClientRole() {
+        this.roles = new String[]{"ROLE_CLIENT"};
+    }
+
+    public void setAdminRole() {
+        this.roles = new String[]{"ROLE_ADMIN"};
+    }
     public String getPassword() {
         return password;
     }
@@ -224,7 +294,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", email='" + email + '\'' +
-                ", roles=" + roles +
+                ", roles=" + this.getRolesAsJson() +
                 ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -245,4 +315,24 @@ public class User {
                 ", friendsList=" + friendsList +
                 '}';
     }
+public void setId(int id){
+        this.id=id;
+}
+    public String getLanguageAsJson() {
+        Gson gson = new Gson();
+        return gson.toJson(language);
+    }
+    public String trimRoleString() {
+        // Remove extra quotes and slashes from the role string
+        return this.roles[0].replaceAll("\\\\\"", "").replaceAll("\"", "");
+    }
+    public void setPhoneNumber(String phoneNumber) {
+        int parsedPhoneNumber = Integer.parseInt(phoneNumber);
+        // Set the parsed phone number
+        this.phone = parsedPhoneNumber;    }
+
+    public String getPhoneNumber() {
+        return String.valueOf(this.phone);
+    }
+
 }
