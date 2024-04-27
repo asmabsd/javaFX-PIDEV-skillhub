@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="431.0" prefWidth="769.0" stylesheets="css2.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.afficherOrganisationController">
+
+    <Label fx:id="welcomeLBL" layoutX="274.0" layoutY="32.0" text="Affichage Liste Des Organisations">
+        <font>
+            <Font size="18.0" />
+        </font>
+    </Label>
+    <TableView fx:id="tableView" layoutX="6.0" layoutY="75.0" prefHeight="274.0" prefWidth="709.0">
+        <columns>
+
+
+            <TableColumn fx:id="nomCol" prefWidth="120.0" text="nom" />
+            <TableColumn fx:id="adresseCol" prefWidth="120.0" text="adresse" />
+            <TableColumn fx:id="telephoneCol" prefWidth="120.0" text="telephone" />
+            <TableColumn fx:id="emailCol" prefWidth="120.0" text="email" />
+            <TableColumn fx:id="contactCol" prefWidth="106.0" text="contact" />
+            <TableColumn fx:id="domaine_activiteCol" prefWidth="134.0" text="domaine_activite" />
+
+
+        </columns>
+    </TableView>
+    <Button fx:id="delete" layoutX="415.0" layoutY="357.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="70.0" text="supprimer" />
+    <Button fx:id="update" layoutX="329.0" layoutY="357.0" mnemonicParsing="false" onAction="#editOrganisation" prefHeight="27.0" prefWidth="70.0" text="modifier " />
+   <Label fx:id="welcomeLBL1" layoutX="6.0" layoutY="6.0" text="Bienvenue sur SkillHub | Votre application de Freelance" />
+
+</AnchorPane>

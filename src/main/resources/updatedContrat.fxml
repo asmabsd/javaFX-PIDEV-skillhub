@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml" stylesheets="css2.css"
+            fx:controller="controllers.afficherContratController"
+            prefHeight="400.0" prefWidth="600.0">
+    <TableView fx:id="tableView" layoutY="72.0" prefHeight="284.0" prefWidth="834.0">
+        <columns>
+            <TableColumn fx:id="date_debutCol" prefWidth="120.0" text="Date de début" />
+            <TableColumn fx:id="date_finCol" prefWidth="120.0" text="Date de fin" />
+            <TableColumn fx:id="montantCol" prefWidth="80.0" text="Montant" />
+            <TableColumn fx:id="statutCol" prefWidth="80.0" text="Statut" />
+            <TableColumn fx:id="projetCol" prefWidth="120.0" text="Projet" />
+            <TableColumn fx:id="freelancerCol" prefWidth="120.0" text="Freelancer" />
+            <TableColumn fx:id="organisation_idCol" prefWidth="120.0" text="ID de l'Organisation" />
+            <TableColumn fx:id="user_idCol" prefWidth="80.0" text="ID de l'Utilisateur" />
+            <TableColumn fx:id="date_creationCol" prefWidth="120.0" text="Date de création" />
+            <TableColumn fx:id="descriptionCol" prefWidth="200.0" text="Description" />
+        </columns>
+    </TableView>
+    <Button fx:id="delete" layoutX="459.0" layoutY="359.0" mnemonicParsing="false" onAction="#delete" text="Button" />
+    <Button fx:id="update" layoutX="343.0" layoutY="372.0" mnemonicParsing="false" onAction="#editContrat" text="Button" />
+
+
+</AnchorPane>
+
+

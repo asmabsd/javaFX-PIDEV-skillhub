@@ -1,0 +1,35 @@
+/* styles.css */
+
+/* Style pour l'arrière-plan de l'AnchorPane */
+.root {
+    -fx-background-color: #ecf0f1; /* Bleu clair */
+}
+
+/* Style pour le texte des labels */
+.label {
+    -fx-text-fill: #2980b9; /* Bleu */
+    -fx-font-size: 18px;
+}
+
+/* Style pour le texte des colonnes de TableView */
+.table-column {
+    -fx-text-fill: #2980b9; /* Bleu */
+    -fx-font-size: 16px;
+}
+
+/* Style pour les boutons */
+.button {
+    -fx-background-color: #2980b9; /* Bleu */
+    -fx-text-fill: white; /* Blanc */
+    -fx-font-size: 14px;
+}
+
+/* Style pour les boutons lorsque survolés */
+.button:hover {
+    -fx-background-color: #3498db; /* Bleu clair */
+}
+
+/* Style pour les boutons lorsque pressés */
+.button:pressed {
+    -fx-background-color: #1f618d; /* Bleu foncé */
+}

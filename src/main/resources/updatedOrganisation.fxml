@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="403.0" prefWidth="595.0"  stylesheets="css2.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.afficherOrganisationController">
+
+    <TableView fx:id="tableView" layoutY="14.0" prefHeight="375.0" prefWidth="595.0">
+        <columns>
+            <TableColumn fx:id="nomCol" prefWidth="200.0" text="Nom" />
+            <TableColumn fx:id="adresseCol" prefWidth="200.0" text="Adresse" />
+            <TableColumn fx:id="telephoneCol" prefWidth="100.0" text="Téléphone" />
+            <TableColumn fx:id="emailCol" prefWidth="150.0" text="Email" />
+            <TableColumn fx:id="contactCol" prefWidth="150.0" text="Contact" />
+            <TableColumn fx:id="domaine_activiteCol" prefWidth="150.0" text="Domaine d'Activité" />
+        </columns>
+    </TableView>
+
+</AnchorPane>
+

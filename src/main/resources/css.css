@@ -1,0 +1,42 @@
+.root {
+    -fx-background-color: #3498db; /* Bleu plus foncé pour la couleur de fond */
+}
+
+.label {
+    -fx-text-fill: #ffffff; /* Couleur du texte en blanc */
+}
+
+.button {
+    -fx-background-color: #2980b9; /* Bleu plus foncé pour les boutons */
+    -fx-text-fill: #ffffff; /* Couleur du texte en blanc */
+    -fx-font-size: 14px; /* Taille de la police */
+}
+
+.button:hover {
+    -fx-background-color: #1f618d; /* Bleu foncé plus accentué au survol */
+}
+
+.date-picker,
+.text-field {
+    -fx-background-color: #ffffff; /* Couleur de fond en blanc pour les champs de texte */
+}
+
+.text-field {
+    -fx-text-fill: #000000; /* Couleur du texte en noir pour les champs de texte */
+}
+
+.date-picker .text-field {
+    -fx-font-size: 14px; /* Taille de la police */
+}
+
+.text-field:disabled {
+    -fx-opacity: 1; /* Opacité des champs désactivés */
+}
+
+.date-picker:disabled .text-field {
+    -fx-opacity: 1; /* Opacité des champs de date désactivés */
+}
+
+.date-picker:disabled .arrow-button {
+    -fx-opacity: 1; /* Opacité des boutons de sélection de date désactivés */
+}

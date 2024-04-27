@@ -1,6 +1,13 @@
 package services;
 
-/* public class ServiceEvent implements IService<event> {
+import entities.event;
+import utils.MyDatabase;
+
+import java.sql.*;
+import java.util.HashSet;
+import java.util.Set;
+
+public class ServiceEvent implements IService<event> {
     static Connection cnx = MyDatabase.getInstance().getCnx();
 
     public ServiceEvent() {
@@ -128,4 +135,4 @@ package services;
         }
         return events;
     }
-}*/
+}

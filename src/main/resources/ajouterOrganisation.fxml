@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="536.0" prefWidth="618.0" stylesheets="css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ajouterOrganisationController">
+       <Label layoutX="10.0" layoutY="5.0" text="Bienvenue sur SkillHub-Votre application de Freelance">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+
+    <Label layoutX="203.0" layoutY="33.0" text="Ajouter Organisation">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+
+    <TextField fx:id="nomTf" layoutX="14.0" layoutY="49.0" promptText="nom" />
+    <TextField fx:id="adresseTf" layoutX="14.0" layoutY="92.0" promptText="adresse" />
+
+
+    <TextField fx:id="telephoneTf" layoutX="14.0" layoutY="137.0" promptText="telephone" />
+    <TextField fx:id="emailTf" layoutX="14.0" layoutY="188.0" promptText="email" />
+    <TextField fx:id="contactTf" layoutX="14.0" layoutY="231.0" promptText="contact" />
+
+    <TextField fx:id="domaine_activiteTf" layoutX="14.0" layoutY="270.0" promptText="domaine_activite" />
+
+    <Button fx:id="buttonInsert" layoutX="434.0" layoutY="295.0" mnemonicParsing="false" onAction="#InsererOrganisation" text="Insérer" />
+    <Button fx:id="buttonAffiche" layoutX="497.0" layoutY="295.0" mnemonicParsing="false" onAction="#naviguez" text="Afficher" />
+
+
+
+
+
+</AnchorPane>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="logo" prefHeight="536.0" prefWidth="618.0" stylesheets="css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ajouterContratController">
+       <Label layoutX="15.0" layoutY="5.0" text="Bienvenue sur SkillHub | Votre application de Freelance">
+        <font>
+            <Font name="System Bold" size="12.0" />
+        </font>
+    </Label>
+
+    <Label layoutX="226.0" layoutY="34.0" text="Ajouter Contrat">
+        <font>
+            <Font name="System Bold" size="20.0" />
+        </font>
+    </Label>
+
+    <DatePicker fx:id="date_debutTf" layoutX="14.0" layoutY="80.0" promptText="Date de début" />
+    <DatePicker fx:id="date_finTf" layoutX="14.0" layoutY="122.0" promptText="Date de fin" />
+    <TextField fx:id="montantTf" layoutX="14.0" layoutY="167.0" prefHeight="25.0" prefWidth="174.0" promptText="Montant (entre 20 et 300) " />
+    <TextField fx:id="statutTf" layoutX="14.0" layoutY="218.0" promptText="Statut" />
+    <TextField fx:id="projetTf" layoutX="14.0" layoutY="261.0" promptText="Projet" />
+    <TextField fx:id="freelancerTf" layoutX="14.0" layoutY="300.0" promptText="Freelancer" />
+    <TextField fx:id="organisation_idTf" layoutX="14.0" layoutY="338.0" promptText="ID de l'organisation" />
+    <TextField fx:id="user_idTf" layoutX="14.0" layoutY="377.0" promptText="ID de l'utilisateur" />
+    <DatePicker fx:id="date_creationTf" layoutX="225.0" layoutY="150.0" prefHeight="30.0" prefWidth="210.0" promptText="Date de création" />
+    <TextField fx:id="descriptionTf" layoutX="226.0" layoutY="206.0" prefHeight="91.0" prefWidth="210.0" promptText=" Description -saisir plus de 5 lettres " />
+
+
+    <Button fx:id="buttonInserer" layoutX="286.0" layoutY="402.0" mnemonicParsing="false" onAction="#InsererContrat" text="Insérer" />
+    <Button fx:id="buttonAffiche" layoutX="374.0" layoutY="402.0" mnemonicParsing="false" onAction="#naviguez" text="Afficher" />
+   <ImageView fitHeight="79.0" fitWidth="149.0" layoutX="409.0" layoutY="19.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="/image/415401762_3571908589727539_9217178195686500708_n.png" />
+      </image>
+   </ImageView>
+
+</AnchorPane>

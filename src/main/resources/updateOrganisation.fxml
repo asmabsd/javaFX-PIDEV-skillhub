@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="403.0" prefWidth="595.0" stylesheets="css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.modifierOrganisationController">
+
+    <Label layoutX="150.0" layoutY="-9.0" text="Modifier Organisation">
+        <font>
+            <Font name="System Bold" size="32.0" />
+        </font>
+    </Label>
+
+    <Label fx:id="welcomeLBL" layoutX="10.0" layoutY="10.0" text="Welcome" />
+
+    <TextField fx:id="nomTf" layoutX="14.0" layoutY="50.0" promptText="Nom" />
+    <TextField fx:id="adresseTf" layoutX="14.0" layoutY="92.0" promptText="Adresse" />
+    <TextField fx:id="telephoneTf" layoutX="14.0" layoutY="137.0" promptText="Téléphone" />
+    <TextField fx:id="emailTf" layoutX="14.0" layoutY="188.0" promptText="Email" />
+    <TextField fx:id="contactTf" layoutX="14.0" layoutY="231.0" promptText="Contact" />
+    <TextField fx:id="domaine_activiteTf" layoutX="14.0" layoutY="270.0" promptText="Domaine d'activité" />
+
+    <Button fx:id="buttonCancel" layoutX="406.0" layoutY="258.0" mnemonicParsing="false" onAction="#updateOrganisation" text="Modifier " />
+    <Button fx:id="buttonupdate" layoutX="235.0" layoutY="258.0" mnemonicParsing="false" onAction="#redirectToUpdatedOrganisation" text="voir liste mise à jour " />
+
+</AnchorPane>
