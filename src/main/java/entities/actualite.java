@@ -11,6 +11,7 @@ public class actualite {
     private String description;
     private String categorie;
     private String image;
+
     //private int likes=0;
    // private int dislikes=0;
 

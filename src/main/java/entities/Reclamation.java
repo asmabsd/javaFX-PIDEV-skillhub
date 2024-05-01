@@ -20,14 +20,19 @@ public class Reclamation {
     private String statut;
     private String reponse;
     private  Date date_reclamtion;
+    private int id_freelencer;
+    private  int id_user;
 
-    public Reclamation(int id, String objet, String contenu, String statut, String reponse, Date date_reclamtion) {
+
+    public Reclamation(int id, String objet, String contenu, String statut, String reponse, Date date_reclamtion,int id_freelencer,int id_user) {
         this.id = id;
         this.objet = objet;
         this.contenu = contenu;
         this.statut = statut;
         this.reponse = reponse;
         this.date_reclamtion = date_reclamtion;
+        this.id_freelencer = id_freelencer;
+        this.id_user = id_user;
     }
 
     public Reclamation(int id, String objet, String contenu, String statut, String reponse) {
@@ -99,6 +104,19 @@ public class Reclamation {
     public Reclamation() {
     }
 
+//    @Override
+//    public String toString() {
+//        return "Reclamation{" +
+//                "id=" + id +
+//                ", objet='" + objet + '\'' +
+//                ", contenu='" + contenu + '\'' +
+//                ", statut='" + statut + '\'' +
+//                ", reponse='" + reponse + '\'' +
+//                /*", date_reclamtion=" + date_reclamtion +*/
+//                '}';
+//    }
+
+
     @Override
     public String toString() {
         return "Reclamation{" +
@@ -107,7 +125,9 @@ public class Reclamation {
                 ", contenu='" + contenu + '\'' +
                 ", statut='" + statut + '\'' +
                 ", reponse='" + reponse + '\'' +
-                /*", date_reclamtion=" + date_reclamtion +*/
+                ", date_reclamtion=" + date_reclamtion +
+                ", id_freelencer=" + id_freelencer +
+                ", id_user=" + id_user +
                 '}';
     }
 

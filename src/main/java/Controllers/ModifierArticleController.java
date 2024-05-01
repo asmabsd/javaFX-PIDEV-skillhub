@@ -24,6 +24,7 @@ import java.io.File;
 import java.net.URL;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class ModifierArticleController implements Initializable {
@@ -64,7 +65,7 @@ public class ModifierArticleController implements Initializable {
     @FXML
     private Text imageInputError;
     private actualite article;
-    private articleCardAdminController articleCardAdminController;
+    private articleCardClientController articleCardClientController;
     private ListArticleAdminController listArticleController;
 
     private Serviceactualite serviceArticle;
@@ -73,8 +74,8 @@ public class ModifierArticleController implements Initializable {
     public void setListArticleController(ListArticleAdminController listArticleController) {
         this.listArticleController = listArticleController;
     }
-    public void setarticleCardAdminController(articleCardAdminController articleCardAdminController) {
-        this.articleCardAdminController = articleCardAdminController;
+    public void setarticleCardAdminController(articleCardClientController articleCardClientController) {
+        this.articleCardClientController = articleCardClientController;
     }
 //
 //
@@ -149,7 +150,7 @@ public class ModifierArticleController implements Initializable {
 //    }
 
     public void initData(actualite article) {
-        this.article = article;
+       // titreArt.setText(article.getTitre());
         initializeArticleFields();
     }
 
@@ -267,8 +268,9 @@ public class ModifierArticleController implements Initializable {
 //                } catch (IOException e) {
 //                    e.printStackTrace();
 //                }
+                List<actualite> actualites=serviceArticle.getAllArticles();
                 if (listArticleController != null) {
-                    listArticleController.refreshArticleList(); // Appel de la méthode pour rafraîchir la liste des articles
+                    listArticleController.refreshArticleList(actualites); // Appel de la méthode pour rafraîchir la liste des articles
                 }
 
                 // Fermez la fenêtre de modification d'article

@@ -74,7 +74,10 @@ public class ServiceReclamation implements IServiceReclamation<Reclamation> {
                         rs.getString("objet"),
                         rs.getString("contenu"),
                         rs.getString("statut"),
-                        rs.getString("reponse")));
+                        rs.getString("reponse"),
+                        rs.getDate("date_reclamation"),
+                        rs.getInt("freelancer_id"),
+                        rs.getInt("user_id")));
             }
 
         } catch (Exception e) {
@@ -85,4 +88,16 @@ public class ServiceReclamation implements IServiceReclamation<Reclamation> {
         }
         return list;
     }
+    public int id_freelancer(int id) throws SQLException {
+        String req = "SELECT id_freelancer FROM reclamation WHERE id = ?";
+        PreparedStatement statement = connection.prepareStatement(req);
+        statement.setInt(1, id);
+        ResultSet rs = statement.executeQuery();
+        int a = 0; // Initialiser la variable avant de l'utiliser
+        if (rs.next()) { // Vérifier s'il y a un résultat avant de récupérer la valeur
+            a = rs.getInt("id_freelancer");
+        }
+        return a;
+    }
+
 }

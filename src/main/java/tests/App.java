@@ -30,7 +30,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/modifierArticle.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/listereclamation.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         primaryStage.setTitle("SKILLHUB");

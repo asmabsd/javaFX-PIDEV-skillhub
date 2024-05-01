@@ -86,10 +86,11 @@ public class updatereclamationcontroller {
     public void updaterdv(ActionEvent actionEvent) {
         String update = "update reclamation set id = ?, objet = ?, contenu = ?, statut = ?, date_reclamation = ? where id = ?" ;
         con = MyDatabase.getInstance().getConnection();
-
+        FXMLLoader loader =new FXMLLoader(getClass().getResource("/FXML/listereclamation.fxml"));
         try {
+            Stage stage =new Stage();
             Parent root =
-                    FXMLLoader.load(getClass().getResource("/listereclamation.fxml"));
+                    FXMLLoader.load(getClass().getResource("/FXML/listereclamation.fxml"));
 
 
             contenuelabel.getScene().setRoot(root);

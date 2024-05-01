@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="backArt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="297.0" styleClass="userProductCard" stylesheets="@../css/SideNavBar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.articleCardAdminController">
+<VBox fx:id="backArt" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="464.0" prefWidth="297.0" styleClass="userProductCard" stylesheets="@../css/SideNavBar.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controllers.articleCardClientController">
     <children>
           <HBox fx:id="open_productDetails" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="412.0" prefWidth="311.0" styleClass="openProductDetailsBtn">
          <children>

@@ -18,11 +18,10 @@ import services.Serviceactualite;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 
-public class articleCardAdminController implements Initializable {
+public class articleCardClientController implements Initializable {
 
     @FXML
     private HBox action;
@@ -137,6 +136,24 @@ public void initializeData(actualite actualite) {
         datepubArt.setText(formattedDate);
         contenuArtFront.setText(actualite.getDescription());
     }
+    viewdetailArt.setOnMouseClicked(mouseEvent -> {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/Details.fxml"));
+        try {
+            Stage primaryStage = new Stage();
+            Parent parent = loader.load();
+            DetailsController detailsController = new DetailsController();
+            if (actualite != null) {
+                detailsController.initData(actualite);
+            }
+            Scene scene = new Scene(parent);
+            primaryStage.setTitle("SKILLHUB");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    });
 }
 
     @FXML

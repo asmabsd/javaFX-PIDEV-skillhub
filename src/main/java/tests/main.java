@@ -8,7 +8,7 @@ import utils.MyDatabase;
 import java.sql.SQLException;
 
 public class main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         // Créer une instance de LocalDate avec la date spécifique
        // LocalDate dateReclamation = LocalDate.of(2024, 4, 16);
 
@@ -16,6 +16,8 @@ public class main {
 
 
     //MyDatabase myDataBase = new MyDatabase();
+        ServiceReclamation serviceReclamation = new ServiceReclamation();
+        System.out.println(serviceReclamation.afficher());
 
 
 }}

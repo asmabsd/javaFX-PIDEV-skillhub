@@ -36,7 +36,7 @@ public class Serviceactualite implements IServiceactualite<actualite> {
 
     @Override
     public void supprimer(actualite article) {
-        String req = "DELETE FROM article WHERE id=?";
+        String req = "DELETE FROM actualite WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(req)) {
             preparedStatement.setInt(1, article.getId());
             preparedStatement.executeUpdate();
@@ -48,7 +48,7 @@ public class Serviceactualite implements IServiceactualite<actualite> {
 
     @Override
     public void modifier(actualite article) {
-        String req = "UPDATE article SET titre=?, date_publication=?, description=?, categorie=?, image=? WHERE id=?";
+        String req = "UPDATE actualite SET titre=?, date_publication=?, description=?, categorie=?, image=? WHERE id=?";
         try (PreparedStatement preparedStatement = connection.prepareStatement(req)) {
             preparedStatement.setString(1, article.getTitre());
             preparedStatement.setObject(2, article.getDate_publicaton());
@@ -67,7 +67,7 @@ public class Serviceactualite implements IServiceactualite<actualite> {
     @Override
     public List<actualite> afficher() {
         List<actualite> articles = new ArrayList<>();
-        String req = "SELECT * FROM article";
+        String req = "SELECT * FROM actualite";
         try (Statement statement = connection.createStatement();
              ResultSet rs = statement.executeQuery(req)) {
             while (rs.next()) {
@@ -85,21 +85,39 @@ public class Serviceactualite implements IServiceactualite<actualite> {
         }
         return articles;
     }
+    public actualite getArticleById(int id) throws SQLException {
+        String req = "SELECT * FROM actualite WHERE id=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(req)) {
+            preparedStatement.setInt(1, id);
+            ResultSet rs = preparedStatement.executeQuery();
+            if (rs.next()) {
+                return mapResultSetToArticle(rs);
+            }
+        }
+        throw new SQLException("Article non trouvé avec l'ID : " + id);
+    }
+
+
+
+    private actualite mapResultSetToArticle(ResultSet rs) {
+        return null;
+    }
+
     public List<actualite> getAllArticles() throws SQLException {
         List<actualite> articles = new ArrayList<>();
-        String query = "SELECT * FROM article"; // Assurez-vous que "article" est le nom de votre table d'articles dans la base de données
+        String query = "SELECT * FROM actualite"; // Assurez-vous que "article" est le nom de votre table d'articles dans la base de données
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 while (resultSet.next()) {
-                    actualite article = new actualite();
-                    article.setId(resultSet.getInt("id"));
-                    article.setTitre(resultSet.getString("titre"));
-                    article.setDescription(resultSet.getString("description"));
-                    article.setDate_publicaton(resultSet.getTimestamp("date_publication").toLocalDateTime());
+                    actualite actualite = new actualite();
+                    actualite.setId(resultSet.getInt("id"));
+                    actualite.setTitre(resultSet.getString("titre"));
+                    actualite.setDescription(resultSet.getString("description"));
+                    actualite.setDate_publicaton(resultSet.getTimestamp("date_publication").toLocalDateTime());
                     // Assurez-vous que la colonne "date_pub_art" dans votre table de base de données est de type TIMESTAMP
                     // Convertissez-le en LocalDateTime en utilisant toLocalDateTime()
                     // Ajoutez d'autres attributs d'article de la même manière si nécessaire
-                    articles.add(article);
+                    articles.add(actualite);
                 }
             }
         }
