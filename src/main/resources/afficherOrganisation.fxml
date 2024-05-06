@@ -30,6 +30,8 @@
     </TableView>
     <Button fx:id="delete" layoutX="415.0" layoutY="357.0" mnemonicParsing="false" onAction="#delete" prefHeight="27.0" prefWidth="70.0" text="supprimer" />
     <Button fx:id="update" layoutX="329.0" layoutY="357.0" mnemonicParsing="false" onAction="#editOrganisation" prefHeight="27.0" prefWidth="70.0" text="modifier " />
-   <Label fx:id="welcomeLBL1" layoutX="6.0" layoutY="6.0" text="Bienvenue sur SkillHub | Votre application de Freelance" />
+    <Button fx:id="stats1" layoutX="616.0" layoutY="359.0" mnemonicParsing="false" onAction="#afficherCharte" prefHeight="26.0" prefWidth="158.0" text="Voir Organisation par lieu " />
+
+    <Label fx:id="welcomeLBL1" layoutX="6.0" layoutY="6.0" text="Bienvenue sur SkillHub | Votre application de Freelance" />
 
 </AnchorPane>

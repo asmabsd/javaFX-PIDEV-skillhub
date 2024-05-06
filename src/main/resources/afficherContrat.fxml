@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="420.0" prefWidth="863.0" stylesheets="css2.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.afficherContratController">
 
-    <Label fx:id="welcomeLBL" layoutX="304.0" layoutY="31.0" text="Affichage Liste Contrat">
+<Label fx:id="welcomeLBL" layoutX="304.0" layoutY="31.0" text="Affichage Liste Contrat">
         <Label layoutX="10.0" layoutY="5.0" text="Bienvenue sur SkillHub-Votre application de Freelance">
             <font>
                 <Font name="System Bold" size="12.0" />
@@ -21,19 +21,22 @@
     </Label>
     <TableView fx:id="tableView" layoutY="72.0" prefHeight="284.0" prefWidth="834.0">
         <columns>
-            <TableColumn fx:id="date_debutCol" prefWidth="120.0" text="Date de début" />
-            <TableColumn fx:id="date_finCol" prefWidth="120.0" text="Date de fin" />
+            <TableColumn fx:id="date_debutCol" prefWidth="100.0" text="Date de début" />
+            <TableColumn fx:id="date_finCol" prefWidth="100.0" text="Date de fin" />
             <TableColumn fx:id="montantCol" prefWidth="80.0" text="Montant" />
             <TableColumn fx:id="statutCol" prefWidth="80.0" text="Statut" />
-            <TableColumn fx:id="projetCol" prefWidth="120.0" text="Projet" />
-            <TableColumn fx:id="freelancerCol" prefWidth="120.0" text="Freelancer" />
-            <TableColumn fx:id="organisation_idCol" prefWidth="120.0" text="ID de l'Organisation" />
-            <TableColumn fx:id="user_idCol" prefWidth="80.0" text="ID de l'Utilisateur" />
+            <TableColumn fx:id="projetCol" prefWidth="150.0" text="Projet" />
+            <TableColumn fx:id="freelancerCol" prefWidth="150.0" text="Freelancer" />
+            <TableColumn fx:id="organisation_idCol" prefWidth="150.0" text="ID de l'Organisation" />
+            <TableColumn fx:id="user_idCol" prefWidth="100.0" text="ID de l'Utilisateur" />
             <TableColumn fx:id="date_creationCol" prefWidth="120.0" text="Date de création" />
             <TableColumn fx:id="descriptionCol" prefWidth="200.0" text="Description" />
         </columns>
     </TableView>
-    <Button fx:id="delete" layoutX="459.0" layoutY="359.0" mnemonicParsing="false" onAction="#delete" text="supprimer" />
-    <Button fx:id="update" layoutX="343.0" layoutY="372.0" mnemonicParsing="false" onAction="#editContrat" text="modifier" />
+    <Button fx:id="delete" layoutX="459.0" layoutY="359.0" mnemonicParsing="false" onAction="#delete" text="Supprimer" />
+    <Button fx:id="update" layoutX="459.0" layoutY="400.0" mnemonicParsing="false" onAction="#editContrat" text="Modifier" />
+    <Button fx:id="stats1" layoutX="616.0" layoutY="359.0" mnemonicParsing="false" onAction="#afficherChartecirculaire" prefHeight="26.0" prefWidth="158.0" text="Voir contrat par année" />
+    <Button fx:id="stats2" layoutX="616.0" layoutY="400.0" mnemonicParsing="false" onAction="#afficherChartecirculaire2" prefHeight="26.0" prefWidth="158.0" text="Voir contrat par montant " />
+    <Button fx:id="stats3" layoutX="616.0" layoutY="441.0" mnemonicParsing="false" onAction="#afficherChartecirculaire3" prefHeight="26.0" prefWidth="158.0" text="Voir contrat par statut " />
 
 </AnchorPane>

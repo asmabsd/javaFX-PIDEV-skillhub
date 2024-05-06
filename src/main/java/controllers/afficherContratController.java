@@ -4,6 +4,7 @@ package controllers;
 import entities.Contrat;
 import entities.Organisation;
 import entities.User;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -11,8 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceContrat;
@@ -22,11 +25,19 @@ import services.ServiceUser;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class afficherContratController {
     public Button delete;
     public Button update;
+    public Button stats;
+    public Button stats1;
+    public Button stats2;
+    public Button stats3;
+    public Button stats4;
     ServiceContrat sc = new ServiceContrat();
     @FXML
     private TableColumn<Contrat, Date> date_debutCol;
@@ -90,8 +101,13 @@ public class afficherContratController {
             this.statutCol.setCellValueFactory(new PropertyValueFactory("statut"));
             this.projetCol.setCellValueFactory(new PropertyValueFactory("projet"));
             this.freelancerCol.setCellValueFactory(new PropertyValueFactory("freelancer"));
-            this.organisation_idCol.setCellValueFactory(new PropertyValueFactory("organisation_id"));
-            this.user_idCol.setCellValueFactory(new PropertyValueFactory("user_id"));
+           // this.organisation_idCol.setCellValueFactory(new PropertyValueFactory("organisation_id"));
+            organisation_idCol.setCellValueFactory(new PropertyValueFactory<>("organisation_id"));
+            user_idCol.setCellValueFactory(new PropertyValueFactory<>("user_id"));
+
+
+
+
             this.date_creationCol.setCellValueFactory(new PropertyValueFactory("date_creation"));
             this.descriptionCol.setCellValueFactory(new PropertyValueFactory("description"));
         } catch (SQLException var2) {
@@ -116,6 +132,8 @@ public class afficherContratController {
     void setData(String param) {
         this.welcomeLBL.setText("Liste des contrats  " + param);
     }
+
+
 
     public class ButtonTableCellFactory implements Callback<TableColumn<Contrat, String>, TableCell<Contrat, String>> {
 
@@ -240,6 +258,213 @@ public class afficherContratController {
             alert.showAndWait();
         }
     }
+    @FXML
+    private PieChart pieChart;
+
+    @FXML
+    void afficherChartecirculaire(ActionEvent event) {
+        // Créer un graphique circulaire
+        PieChart pieChart = new PieChart();
+        Map<Integer, Integer> contratsParAnnee = new HashMap<>();
+
+        // Agréger les données
+        for (Contrat contrat : observableList) {
+            Date dateDebut = contrat.getDate_debut();
+            int annee = dateDebut.getYear();
+            contratsParAnnee.put(annee, contratsParAnnee.getOrDefault(annee, 0) + 1);
+        }
+
+        // Calculer le total des contrats sur toutes les années
+        int totalContrats = contratsParAnnee.values().stream().mapToInt(Integer::intValue).sum();
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
+        // Ajouter les données au graphique
+        for (Map.Entry<Integer, Integer> entry : contratsParAnnee.entrySet()) {
+            double pourcentage = (double) entry.getValue() / totalContrats * 100;
+            String label = entry.getKey().toString() + " (" + String.format("%.2f", pourcentage) + "%)";
+            PieChart.Data slice = new PieChart.Data(label, entry.getValue());
+            slice.setName(dateFormat.format(new Date(entry.getKey(), 0, 1)));
+            pieChart.getData().add(slice);
+        }
+
+        // Créer une nouvelle fenêtre pour afficher le graphique
+        Stage stage = new Stage();
+        stage.setScene(new Scene(new AnchorPane(pieChart)));
+        stage.setTitle("Graphique nbr des contrats par année");
+        stage.show();
+
+        // Configurer l'étiquetage des tranches pour afficher les pourcentages
+        for (final PieChart.Data data : pieChart.getData()) {
+            data.nameProperty().bind(
+                    Bindings.concat(
+                            data.getName(), " (",
+                            String.format("%.1f%%", 100 * data.getPieValue() / totalContrats),
+                            ")"
+                    )
+            );
+        }
+    }
+
+
+    @FXML
+    void afficherChartecirculaire2(ActionEvent event) {
+        // Créer un graphique circulaire
+        PieChart pieChart = new PieChart();
+
+        // Définir les intervalles de montant
+        int[] intervals = {20, 50, 100, 150, 200, 250, 300};
+        // Initialiser le compteur pour chaque intervalle
+        Map<String, Integer> contratParIntervalle = new HashMap<>();
+        for (int i = 0; i < intervals.length - 1; i++) {
+            String intervalLabel = intervals[i] + "-" + intervals[i+1];
+            contratParIntervalle.put(intervalLabel, 0);
+        }
+
+        // Agréger les données
+        for (Contrat contrat : observableList) {
+            int montant = contrat.getMontant();
+            for (int i = 0; i < intervals.length - 1; i++) {
+                if (montant >= intervals[i] && montant < intervals[i + 1]) {
+                    String intervalLabel = intervals[i] + "-" + intervals[i + 1];
+                    contratParIntervalle.put(intervalLabel, contratParIntervalle.get(intervalLabel) + 1);
+                    break;
+                }
+            }
+        }
+
+        // Calculer le total des contrats sur toutes les intervalles
+        int totalContrats = contratParIntervalle.values().stream().mapToInt(Integer::intValue).sum();
+
+        // Ajouter les données au graphique
+        for (Map.Entry<String, Integer> entry : contratParIntervalle.entrySet()) {
+            double pourcentage = (double) entry.getValue() / totalContrats * 100;
+            String label = entry.getKey() + " (" + String.format("%.2f", pourcentage) + "%)";
+            pieChart.getData().add(new PieChart.Data(label, entry.getValue()));
+        }
+
+        // Créer une nouvelle fenêtre pour afficher le graphique
+        Stage stage = new Stage();
+        stage.setScene(new Scene(new AnchorPane(pieChart)));
+        stage.setTitle("Graphique nbr des contrats par intervalle de montant");
+        stage.show();
+    }
+
+
+    @FXML
+    void afficherChartecirculaire3(ActionEvent event) {
+        // Créer un graphique circulaire
+        PieChart pieChart = new PieChart();
+
+        // Initialiser le compteur pour chaque statut
+        Map<String, Integer> contratsParStatut = new HashMap<>();
+
+        // Agréger les données
+        for (Contrat contrat : observableList) {
+            String statut = contrat.getStatut();
+            contratsParStatut.put(statut, contratsParStatut.getOrDefault(statut, 0) + 1);
+        }
+
+        // Calculer le total des contrats
+        int totalContrats = contratsParStatut.values().stream().mapToInt(Integer::intValue).sum();
+
+        // Ajouter les données au graphique
+        for (Map.Entry<String, Integer> entry : contratsParStatut.entrySet()) {
+            double pourcentage = (double) entry.getValue() / totalContrats * 100;
+            String label = entry.getKey() + " (" + String.format("%.2f", pourcentage) + "%)";
+            pieChart.getData().add(new PieChart.Data(label, entry.getValue()));
+        }
+
+        // Créer une nouvelle fenêtre pour afficher le graphique
+        Stage stage = new Stage();
+        stage.setScene(new Scene(new AnchorPane(pieChart)));
+        stage.setTitle("Répartition des contrats par statut");
+        stage.show();
+    }
+
+    @FXML
+    void afficherChartecirculaire4(ActionEvent event) {
+        // Créer un graphique circulaire
+        PieChart pieChart = new PieChart();
+
+        // Initialiser le compteur pour chaque organisation
+        Map<String, Integer> contratsParOrganisation = new HashMap<>();
+
+        // Agréger les données
+        for (Contrat contrat : observableList) {
+            String nomOrganisation = contrat.getOrganisation_id().getNom(); // Supposons que "getNom()" retourne le nom de l'organisation
+            contratsParOrganisation.put(nomOrganisation, contratsParOrganisation.getOrDefault(nomOrganisation, 0) + 1);
+        }
+
+        // Calculer le total des contrats
+        int totalContrats = contratsParOrganisation.values().stream().mapToInt(Integer::intValue).sum();
+
+        // Ajouter les données au graphique
+        for (Map.Entry<String, Integer> entry : contratsParOrganisation.entrySet()) {
+            double pourcentage = (double) entry.getValue() / totalContrats * 100;
+            String label = entry.getKey() + " (" + String.format("%.2f", pourcentage) + "%)";
+            pieChart.getData().add(new PieChart.Data(label, entry.getValue()));
+        }
+
+        // Créer une nouvelle fenêtre pour afficher le graphique
+        Stage stage = new Stage();
+        stage.setScene(new Scene(new AnchorPane(pieChart)));
+        stage.setTitle("Répartition des contrats par organisation");
+        stage.show();
+    }
+
+
+ /*   @FXML
+    private void pdf(ActionEvent event) throws FileNotFoundException, DocumentException, IOException {
+        ServiceContrat sc =new ServiceContrat();
+
+        Contrat selected = .getSelectionModel().getSelectedItem();
+        PdfPTable table = new PdfPTable(3);
+        PdfPCell c1 = new PdfPCell(new Phrase("produit"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+        c1 = new PdfPCell(new Phrase("quantite"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+        c1 = new PdfPCell(new Phrase("prix"));
+        c1.setHorizontalAlignment(Element.ALIGN_CENTER);
+        table.addCell(c1);
+
+
+
+
+        for(int i=0;i<OrderService.recupererOrderDetails(selected).size();i++){
+            List<orderdetail> list=OrderService.recupererOrderDetails(selected);
+            table.addCell(list.get(i).getProduit().getNom_produit()+"");
+            table.addCell(list.get(i).getQuantity()+"");
+            table.addCell(list.get(i).getPrix()+"");
+
+
+        }
+
+
+
+        Document doc=new Document();
+        PdfWriter.getInstance(doc,new FileOutputStream("C:/xampp/htdocs/ProjectPi/public/uploads/brochures/"+selected.getNumero_commande()+".pdf"));
+        doc.open();
+        doc.addAuthor("Easy Fit");
+        Image img=  Image.getInstance("C:/Users/PC/Downloads/logo.png");
+        doc.add(img);
+
+        doc.addTitle("Facture n°"+selected.getNumero_commande());
+
+        doc.add(new Paragraph("Nom client:  Line Kazdaghli \n Num° commande"+selected.getNumero_commande()+"\n Date:"+selected.getDate()+"\n\n\n\n"));
+        doc.add(table);
+        doc.add(new Paragraph("votre total est  "+selected.getTotal()+"   dt"));
+        doc.close();
+        Desktop.getDesktop().open(new File("C:/xampp/htdocs/ProjectPi/public/uploads/brochures/"+selected.getNumero_commande()+".pdf"));
+
+    }*/
+    //stat peut etre considéré les 2
+//itext for pdf done
+    //twilio sms
+    //api : email ,sms,pdf
+    //
 
 }
 

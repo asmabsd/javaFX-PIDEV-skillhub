@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="447.0" prefWidth="662.0" stylesheets="css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.modifierContratController">
+<?import java.lang.String?>
+<AnchorPane prefHeight="468.0" prefWidth="606.0" stylesheets="css.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.modifierContratController">
 
     <Label layoutX="217.0" layoutY="50.0" text="Modifier Contrat">
         <font>
@@ -18,7 +16,15 @@
     <DatePicker fx:id="date_debutTf" layoutX="14.0" layoutY="100.0" promptText="Date de début" />
     <DatePicker fx:id="date_finTf" layoutX="14.0" layoutY="137.0" promptText="Date de fin" />
     <TextField fx:id="montantTf" layoutX="14.0" layoutY="184.0" promptText="Montant" />
-    <TextField fx:id="statutTf" layoutX="14.0" layoutY="224.0" promptText="Statut" />
+    <ComboBox fx:id="statutComboBox" layoutX="14.0" layoutY="218.0" promptText="Statut">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="En cours" />
+                <String fx:value="Terminé" />
+                <String fx:value="Annulé" />
+            </FXCollections>
+        </items>
+    </ComboBox>
     <TextField fx:id="projetTf" layoutX="14.0" layoutY="259.0" promptText="Projet" />
     <TextField fx:id="freelancerTf" layoutX="14.0" layoutY="295.0" promptText="Freelancer" />
     <TextField fx:id="organisation_idTf" layoutX="14.0" layoutY="335.0" promptText="ID de l'organisation" />
@@ -27,9 +33,9 @@
     <TextField fx:id="descriptionTf" layoutX="230.0" layoutY="193.0" prefHeight="33.0" prefWidth="174.0" promptText="Description" />
 
     <Button fx:id="buttonUpdate" layoutX="237.0" layoutY="295.0" mnemonicParsing="false" onAction="#updateContrat" text="Mettre à jour" />
-    <Button fx:id="buttonupdate" layoutX="341.0" layoutY="295.0" mnemonicParsing="false" onAction="#backToContratList" text="voir la liste mise à jour " />
+    <Button fx:id="buttonmiseajour" layoutX="341.0" layoutY="295.0" mnemonicParsing="false" onAction="#backToContratList" text="voir la liste mise à jour " />
 
-    <Button fx:id="buttonCancel" layoutX="288.0" layoutY="335.0" mnemonicParsing="false" onAction="#backToContratList" text="Annuler" />
+
    <Label layoutX="20.0" layoutY="9.0" text="Bienvenue sur SkillHub | Votre application de Freelance">
       <font>
          <Font name="System Bold" size="12.0" />

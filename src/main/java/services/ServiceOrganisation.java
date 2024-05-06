@@ -6,10 +6,7 @@ import entities.Organisation;
 import utils.MyDatabase;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class ServiceOrganisation implements IService<Organisation> {
     Connection connection = MyDatabase.getInstance().getConnection();
@@ -132,5 +129,18 @@ public class ServiceOrganisation implements IService<Organisation> {
 
         return organisations;
     }
+    public List<Integer> getAllIds() throws SQLException {
+        List<Integer> ids = new ArrayList<>();
+        Set<Organisation> organisations = getAll();
+        for (Organisation organisation : organisations) {
+            ids.add(organisation.getId());
+        }
+        return ids;
+    }
+
 }
+
+
+
+
 

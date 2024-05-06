@@ -1,6 +1,8 @@
 package controllers;
 
-
+import com.twilio.Twilio;
+import com.twilio.exception.TwilioException;
+import com.twilio.rest.api.v2010.account.Message;
 import entities.Organisation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,17 +11,28 @@ import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import services.ServiceOrganisation;
 
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.regex.Pattern;
+
+import static com.twilio.rest.api.v2010.account.Message.*;
 
 
 public class ajouterOrganisationController {
 
     public Button buttonInsert;
     public Button buttonAffiche;
+    public Button buttonConfirmerparsms;
+    public Button buttonsendemail;
     @FXML
     private TextField nomTf;
     @FXML
@@ -32,7 +45,7 @@ public class ajouterOrganisationController {
     private TextField domaine_activiteTf;
     @FXML
     private TextField contactTf;
-
+Organisation organisationajoutee;
 
     // Expression régulière pour vérifier si le nom ne contient que des lettres
     private static final Pattern NOM_PATTERN = Pattern.compile("[a-zA-Z]+");
@@ -85,6 +98,7 @@ public class ajouterOrganisationController {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Succès");
             alert.setContentText("Organisation insérée avec succès");
+            this.organisationajoutee =o;
             alert.show();
         } catch (SQLException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -150,4 +164,146 @@ public class ajouterOrganisationController {
         }
 
     }
+    public static final String ACCOUNT_SID = "AC1c8bc41f46acf2d3d0244f871c365165";
+    public static final String AUTH_TOKEN = "8cbeb454a08b08ab0151295560b0a931";
+
+    // Le numéro Twilio à partir duquel vous envoyez le SMS
+    public static final String TWILIO_NUMBER = "+13345186510";
+
+
+    @FXML
+    public  void envoyerSMS(ActionEvent event) {
+       Integer numeroTelephone=organisationajoutee.getTelephone();
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+
+
+        try {
+            Message message= creator(
+                    new com.twilio.type.PhoneNumber("+21653770600"),
+                    new com.twilio.type.PhoneNumber("+13345186510"),
+                    "l'organisation est ajouté avec succes "
+
+            ).create();
+        } catch (TwilioException e) {
+            e.printStackTrace();
+            // Gérer les erreurs lors de l'envoi du SMS
+        }}
+
+/*
+*/
+
+   /* @FXML
+    public void sendEmail(ActionEvent event) {
+        // Paramètres de connexion au serveur de messagerie
+        String host = "smtp.gmail.com"; // Serveur SMTP Gmail
+        int port = 587; // Port SMTP pour Gmail
+        String username = "votre_adresse@gmail.com"; // Adresse e-mail Gmail
+        String password = "votre_mot_de_passe"; // Mot de passe Gmail
+
+        // Récupération des données de l'e-mail
+        String toEmail = "destinataire@example.com"; // Adresse e-mail du destinataire
+        String subject = "Sujet de l'e-mail";
+        String body = "Contenu de l'e-mail";
+
+        // Paramètres de propriétés
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", host);
+        props.put("mail.smtp.port", port);
+
+        // Création d'une session de messagerie
+        Session session = Session.getInstance(props, new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            // Création d'un objet MimeMessage
+            MimeMessage message = new MimeMessage(session);
+
+            // Définition des détails de l'e-mail
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(javax.mail.Message.RecipientType.TO, InternetAddress.parse(toEmail));
+            message.setSubject(subject);
+            message.setText(body);
+
+            // Envoi de l'e-mail
+            Transport.send(message);
+
+            System.out.println("E-mail envoyé avec succès !");
+        } catch (MessagingException e) {
+            System.err.println("Erreur lors de l'envoi de l'e-mail : " + e.getMessage());
+        }
+    }*/
+
+
+    @FXML
+    public void start(Stage primaryStage) {
+        sendEmail("asmaboussaada0@gmail.com", "Confirmation", "Votre email a été confirmé avec succès.");
+    }
+
+
+
+   @FXML
+    public static void sendEmail(String to, String subject, String body) {
+
+        // Paramètres SMTP de Gmail
+        String username = "asmaboussaada0@gmail.com";
+        String password = "asma55147032";
+
+        // Configuration des propriétés
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        // Création de la session
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+            // Création du message
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(MimeMessage.RecipientType.TO,
+                    InternetAddress.parse(to));
+            message.setSubject(subject);
+            message.setText(body);
+
+            // Envoi du message
+            Transport.send(message);
+
+            // Affichage d'une confirmation
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText(null);
+            alert.setContentText("Email envoyé avec succès !");
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            // En cas d'erreur
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erreur");
+            alert.setHeaderText(null);
+            alert.setContentText("Une erreur s'est produite lors de l'envoi de l'email : " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+    @FXML
+    private void handleSendButtonClick(ActionEvent event) {
+        sendEmail("bsdasma13@gmail.com", "Confirmation", "Votre email a été confirmé avec succès.");
+    }
+
+
+
 }

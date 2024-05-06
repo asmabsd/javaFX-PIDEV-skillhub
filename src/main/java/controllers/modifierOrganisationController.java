@@ -146,7 +146,7 @@ public class modifierOrganisationController {
     void redirectToUpdatedOrganisation(ActionEvent event) {
         try {
             // Charger le fichier FXML de l'affichage des organisations
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/updatedOrganisation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherOrganisation.fxml"));
             Parent root = loader.load();
 
             // Obtenir le contrôleur de l'affichage des organisations

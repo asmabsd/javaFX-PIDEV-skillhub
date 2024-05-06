@@ -11,12 +11,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import services.ServiceOrganisation;
+import utils.MyDatabase;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Set;
@@ -25,6 +34,8 @@ public class afficherOrganisationController {
     public Button delete;
 
     public Button update;
+    public Button stats1;
+    public Label welcomeLBL1;
 
     ServiceOrganisation serviceOrganisation = new ServiceOrganisation();
     @FXML
@@ -149,6 +160,62 @@ public class afficherOrganisationController {
             stage.show();
         } catch (IOException e) {
             System.err.println("Erreur lors du chargement de la vue de toutes les données : " + e.getMessage());
+        }
+    }
+    @FXML
+    void afficherCharte(ActionEvent event) {
+        // Créez un axe de catégorie pour les villes
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setLabel("Ville");
+
+        // Créez un axe numérique pour le nombre d'organisations dans chaque ville
+        NumberAxis yAxis = new NumberAxis();
+        yAxis.setLabel("Nombre d'organisations");
+
+        // Créez le graphique à barres
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        barChart.setTitle("Répartition géographique des organisations par ville");
+
+        // Ajoutez les données au graphique
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+        dataSeries.setName("Nombre d'organisations");
+
+        try {
+            // Connexion à la base de données
+            Connection connection = MyDatabase.getInstance().getConnection();
+
+            // Requête SQL pour compter le nombre d'organisations pour chaque ville
+            String sql = "SELECT adresse, COUNT(*) AS nombre_organisations FROM organisation GROUP BY adresse";
+
+            // Création de l'instruction préparée
+            try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+                // Exécution de la requête SQL
+                try (ResultSet rs = stmt.executeQuery()) {
+                    // Parcours des résultats de la requête
+                    while (rs.next()) {
+                        String ville = rs.getString("adresse");
+                        int nombreOrganisations = rs.getInt("nombre_organisations");
+                        // Ajoutez la ville et le nombre d'organisations correspondant à la série de données
+                        dataSeries.getData().add(new XYChart.Data<>(ville, nombreOrganisations));
+                    }
+                }
+            }
+
+            // Ajoutez la série de données au graphique
+            barChart.getData().add(dataSeries);
+
+            // Ajoutez le graphique à votre interface utilisateur
+            AnchorPane chartPane = new AnchorPane(barChart);
+            // Positionnez le graphique comme vous le souhaitez dans votre interface utilisateur
+            // Par exemple, chartPane.setLayoutX(xValue); et chartPane.setLayoutY(yValue);
+
+            // Créez une nouvelle fenêtre pour afficher le graphique
+            Stage stage = new Stage();
+            stage.setScene(new Scene(chartPane));
+            stage.setTitle("Répartition géographique des organisations par ville");
+            stage.show();
+        } catch (SQLException e) {
+            e.printStackTrace(); // Gérer l'exception selon vos besoins
         }
     }
 

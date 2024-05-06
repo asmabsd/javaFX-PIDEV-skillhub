@@ -1,18 +1,36 @@
  package controllers;
 
-import entities.Contrat;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import services.ServiceContrat;
+ import entities.Contrat;
+ import entities.Organisation;
+ import entities.User;
+ import javafx.event.ActionEvent;
+ import javafx.fxml.FXML;
+ import javafx.fxml.FXMLLoader;
+ import javafx.scene.Parent;
+ import javafx.scene.control.*;
+ import services.ServiceContrat;
+ import services.ServiceOrganisation;
+ import services.ServiceUser;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
+ import java.io.IOException;
+ import java.sql.Date;
+ import java.sql.SQLException;
 
 public class modifierContratController {
+    public Button buttonmiseajour;
+
+
+    // @FXML
+    //private TextField statutTf;
+    
+   // @FXML
+    //private TextField organisation_idTf;
+    //@FXML
+    //private TextField user_idTf;
+    
+
+    @FXML
+    private ComboBox<String> statutComboBox;
 
     public Button buttonUpdate;
     public Button buttonCancel;
@@ -21,8 +39,8 @@ public class modifierContratController {
 
     @FXML
     private TextField montantTf;
-    @FXML
-    private TextField statutTf;
+   // @FXML
+    //private TextField statutTf;
     @FXML
     private TextField projetTf;
     @FXML
@@ -42,6 +60,7 @@ public class modifierContratController {
     private Contrat currentContrat;
     private Contrat c;
     private final ServiceContrat sc = new ServiceContrat();
+    private final ServiceOrganisation so=new ServiceOrganisation();
     @FXML
     private TableView<Contrat> tableView;
     private Label welcomeLBL;
@@ -52,13 +71,16 @@ public class modifierContratController {
     private boolean validateFields() {
         return !descriptionTf.getText().isEmpty() &&
                 !freelancerTf.getText().isEmpty() &&
-                !statutTf.getText().isEmpty() &&
+                //!statutTf.getText().isEmpty() &&
                 !projetTf.getText().isEmpty() &&
                 !montantTf.getText().isEmpty() &&
                 date_finTf.getValue() != null &&
                 date_debutTf.getValue() != null &&
                 date_creationTf.getValue()!=null ;
     }
+
+    ServiceUser su=new ServiceUser();
+
     @FXML
     void updateContrat() {
         if (validateFields()) {
@@ -67,8 +89,16 @@ public class modifierContratController {
                 int montant = Integer.parseInt(montantTf.getText());
                 String freelancer = freelancerTf.getText();
                 String description = descriptionTf.getText();
-                String statut = statutTf.getText();
+               statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+                String statut=statutComboBox.getValue();
                 String projet = projetTf.getText();
+                //Organisation organisation_id=so.getOneById(organisation_idTf);
+
+Integer user_id=Integer.parseInt(user_idTf.getText());
+Integer organisation_id=Integer.parseInt(organisation_idTf.getText());
+User user =su.getOneById(user_id);
+                Organisation organisation=so.getOneById(organisation_id);
+
 
                 Date date_debut = null;
                 Date date_fin = null;
@@ -109,7 +139,11 @@ public class modifierContratController {
                     showAlert(Alert.AlertType.WARNING, "Erreur", "La description doit contenir au moins 5 caractères.");
                     return;
                 }
-
+                Date dateActuelle = new Date(System.currentTimeMillis());
+                if (date_fin.before(dateActuelle)) {
+                    // Désactiver la modification du statut
+                    statutComboBox.setDisable(true);
+                }
                 // Mettre à jour l'objet Contrat actuel avec les nouvelles valeurs
                 currentContrat.setMontant(montant);
                 currentContrat.setFreelancer(freelancer);
@@ -119,23 +153,24 @@ public class modifierContratController {
                 currentContrat.setDate_debut(date_debut);
                 currentContrat.setDate_fin(date_fin);
                 currentContrat.setDate_creation(date_creation);
-
+                  currentContrat.setUser_id(user);
+                  currentContrat.setOrganisation_id(organisation);
                 // Mettre à jour les champs dans l'interface graphique
                 montantTf.setText(String.valueOf(currentContrat.getMontant()));
                 freelancerTf.setText(currentContrat.getFreelancer());
                 descriptionTf.setText(currentContrat.getDescription());
-                statutTf.setText(currentContrat.getStatut());
+                statutComboBox.setValue(currentContrat.getStatut());
+                statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
                 projetTf.setText(currentContrat.getProjet());
                 date_debutTf.setValue(currentContrat.getDate_debut().toLocalDate());
                 date_finTf.setValue(currentContrat.getDate_fin().toLocalDate());
                 date_creationTf.setValue(currentContrat.getDate_creation().toLocalDate());
-
+                  organisation_idTf.setText(String.valueOf(currentContrat.getOrganisation_id()));
+                user_idTf.setText(String.valueOf(currentContrat.getUser_id()));
                 // Appeler la méthode modifier du service Contrat
                 sc.modifier(currentContrat);
                 showAlert(Alert.AlertType.INFORMATION, "Contrat Mis à Jour", "Le contrat a été mis à jour avec succès.");
-            } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Le montant doit être un entier.");
-            } catch (SQLException e) {
+            }  catch (SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
             }
         } else {
@@ -162,7 +197,7 @@ public class modifierContratController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherContrat.fxml"));
             Parent root = loader.load();
             afficherContratController acc = loader.getController();
-            acc.setData(statutTf.getText()); // Vous pouvez passer des données si nécessaire
+            acc.setData(projetTf.getText()); // Vous pouvez passer des données si nécessaire
             montantTf.getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -238,11 +273,7 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
             }
 
             // Vérifiez chaque champ avant de l'utiliser
-            if (statutTf != null) {
-                statutTf.setText(c.getStatut());
-            } else {
-                System.out.println("statutTf est null, vérifiez l'initialisation.");
-            }
+
 
             if (projetTf != null) {
                 projetTf.setText(c.getProjet());
@@ -255,8 +286,46 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
             } else {
                 System.out.println("freelancerTf est null, vérifiez l'initialisation.");
             }
+            if (statutComboBox != null) {
+                // Désactiver la modification du statut si la date de fin est antérieure à la date actuelle
+                Date dateActuelle = new Date(System.currentTimeMillis());
+                if (c.getDate_fin().before(dateActuelle)) {
+                    statutComboBox.setDisable(true);
+                    statutComboBox.setValue(c.getStatut()); // Utiliser le statut du contrat sélectionné
+                } else {
+                    statutComboBox.setDisable(false);
+                    statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+                }
+            } else {
+                System.out.println("statutComboBox est null, vérifiez l'initialisation.");
+            }
+
 
             if (organisation_idTf != null) {
+                organisation_idTf.setText(String.valueOf(c.getOrganisation_id().getId()));
+            } else {
+                System.out.println("organisation_idTf est null, vérifiez l'initialisation.");
+            }
+                        if (user_idTf != null) {
+                            user_idTf.setText(String.valueOf(c.getUser_id().getId()));
+                        } else {
+                            System.out.println("user_idTf est null, vérifiez l'initialisation.");
+                        }
+
+
+
+
+//organisationComboBox.setDisable(false);
+               // organisationComboBox.setValue(c.getOrganisation_id().getId());
+                //statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+
+
+
+
+
+
+
+            /* if (organisation_idTf != null) {
                 organisation_idTf.setText(String.valueOf(c.getOrganisation_id()));
             } else {
                 System.out.println("organisation_idTf est null, vérifiez l'initialisation.");
@@ -266,7 +335,7 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
                 user_idTf.setText(String.valueOf(c.getUser_id()));
             } else {
                 System.out.println("user_idTf est null, vérifiez l'initialisation.");
-            }
+            }*/
 
             if (descriptionTf != null) {
                 descriptionTf.setText(c.getDescription());

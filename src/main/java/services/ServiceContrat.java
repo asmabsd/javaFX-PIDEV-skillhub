@@ -8,7 +8,9 @@ import utils.MyDatabase;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceContrat implements IService<Contrat> {
     Connection connection = MyDatabase.getInstance().getConnection();
@@ -24,20 +26,23 @@ public class ServiceContrat implements IService<Contrat> {
         System.out.println("Contrat ajouté avec succès.");
     }
 
+
     public void modifier(Contrat contrat) throws SQLException {
         String req = "UPDATE contrat SET date_debut=?, date_fin=?, montant=?, statut=?, projet=?, freelancer=?, organisation_id=?, user_id=?, date_creation=?, description=? WHERE id=?";
         PreparedStatement preparedStatement = this.connection.prepareStatement(req);
-        preparedStatement.setInt(1, contrat.getId());
-        preparedStatement.setDate(2, contrat.getDate_debut());
-        preparedStatement.setDate(3, contrat.getDate_fin());
-        preparedStatement.setInt(4, contrat.getMontant());
-        preparedStatement.setString(5, contrat.getStatut());
-        preparedStatement.setString(6, contrat.getProjet());
-        preparedStatement.setString(7, contrat.getFreelancer());
-        preparedStatement.setInt(8, contrat.getOrganisation_id().getId());
-        preparedStatement.setInt(9, contrat.getUser_id().getId());
-        preparedStatement.setDate(10, contrat.getDate_creation());
-        preparedStatement.setString(11, contrat.getDescription());
+        preparedStatement.setDate(1, contrat.getDate_debut());
+        preparedStatement.setDate(2, contrat.getDate_fin());
+        preparedStatement.setInt(3, contrat.getMontant());
+        preparedStatement.setString(4, contrat.getStatut());
+        preparedStatement.setString(5, contrat.getProjet());
+        preparedStatement.setString(6, contrat.getFreelancer());
+        preparedStatement.setInt(7, contrat.getOrganisation_id().getId());
+        preparedStatement.setInt(8, contrat.getUser_id().getId());
+        preparedStatement.setDate(9, contrat.getDate_creation());
+        preparedStatement.setString(10, contrat.getDescription());
+
+        preparedStatement.setInt(11, contrat.getId());
+
         preparedStatement.executeUpdate();
     }
 
@@ -71,4 +76,27 @@ public class ServiceContrat implements IService<Contrat> {
 
         return contrats;
     }
-}
+
+
+
+        public Map<Integer, Integer> getStatsByYear() throws SQLException {
+            Map<Integer, Integer> contratParAnnee = new HashMap<>();
+
+            String req = "SELECT YEAR(date_debut) AS annee, COUNT(*) AS nombre_contrats FROM contrat GROUP BY YEAR(date_debut)";
+            try (Statement statement = connection.createStatement();
+                 ResultSet rs = statement.executeQuery(req)) {
+
+                while (rs.next()) {
+                    int annee = rs.getInt("annee");
+                    int nombreContrats = rs.getInt("nombre_contrats");
+                    contratParAnnee.put(annee, nombreContrats);
+                }
+            }
+
+            return contratParAnnee;
+        }
+
+
+
+    }
+
