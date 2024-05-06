@@ -1,8 +1,5 @@
 package controllers;
 
-import com.twilio.Twilio;
-import com.twilio.exception.TwilioException;
-import com.twilio.rest.api.v2010.account.Message;
 import entities.Organisation;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,8 +20,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Properties;
 import java.util.regex.Pattern;
-
-import static com.twilio.rest.api.v2010.account.Message.*;
 
 
 public class ajouterOrganisationController {
@@ -164,14 +159,12 @@ Organisation organisationajoutee;
         }
 
     }
-    public static final String ACCOUNT_SID = "AC1c8bc41f46acf2d3d0244f871c365165";
-    public static final String AUTH_TOKEN = "8cbeb454a08b08ab0151295560b0a931";
 
     // Le numéro Twilio à partir duquel vous envoyez le SMS
     public static final String TWILIO_NUMBER = "+13345186510";
 
 
-    @FXML
+    /*@FXML
     public  void envoyerSMS(ActionEvent event) {
        Integer numeroTelephone=organisationajoutee.getTelephone();
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
