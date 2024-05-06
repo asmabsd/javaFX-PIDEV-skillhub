@@ -1,0 +1,32 @@
+
+L
+java:S3740"/Provide the parametrized type for this generic.(´âœõ8 ¤Íñ1
+h	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(ı÷ûj8²³Ïñ1
+£
+java:S11867"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(·òşÿÿÿÿ8ı¤Íñ1
+e
+java:S6355U"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš8Ÿƒ»Äó1
+W
+java:S1133V"5Do not forget to remove this deprecated code someday.(ÄßĞñùÿÿÿÿ8¡ƒ»Äó1
+J
+java:S1123V"(Add the missing @deprecated Javadoc tag.(ÄßĞñùÿÿÿÿ8¢ƒ»Äó1
+e
+java:S6355^"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš8®ƒ»Äó1
+W
+java:S1133_"5Do not forget to remove this deprecated code someday.(™Ÿšíüÿÿÿÿ8®ƒ»Äó1
+J
+java:S1123_"(Add the missing @deprecated Javadoc tag.(™Ÿšíüÿÿÿÿ8¯ƒ»Äó1
+e
+java:S6355g"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš8°ƒ»Äó1
+W
+java:S1133h"5Do not forget to remove this deprecated code someday.(„¯Ô ùÿÿÿÿ8°ƒ»Äó1
+J
+java:S1123h"(Add the missing @deprecated Javadoc tag.(„¯Ô ùÿÿÿÿ8°ƒ»Äó1
+e
+java:S6355p"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(õˆúš8²ƒ»Äó1
+R
+java:S1133q"5Do not forget to remove this deprecated code someday.(ñÛ¢Ñ8²ƒ»Äó1
+E
+java:S1123q"(Add the missing @deprecated Javadoc tag.(ñÛ¢Ñ8²ƒ»Äó1
+p
+java:S3776›"RRefactor this method to reduce its Cognitive Complexity from 18 to the 15 allowed.(øÏà8¥Íñ1

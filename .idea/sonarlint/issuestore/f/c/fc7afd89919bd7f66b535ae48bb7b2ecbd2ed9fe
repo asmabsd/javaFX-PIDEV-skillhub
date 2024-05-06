@@ -1,0 +1,15 @@
+
+s	java:S117¡"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ó•”Õúÿÿÿÿ8À ô1
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(´±©ò8À ô1
+o
+java:S3776F"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(Ê¿éª8ëÀ ô1
+M
+java:S1874"/Remove this use of "getDate"; it is deprecated.(–ßí›8¡úÅ ô1
+[
+java:S1117­"8Rename "year" which hides the field declared at line 34.(õ”éšıÿÿÿÿ8ûÀ ô1
+\
+java:S1117®"9Rename "month" which hides the field declared at line 37.(Û¼ßòúÿÿÿÿ8ûÀ ô1
+S
+java:S1874±"0Remove this use of "getMonth"; it is deprecated.(íàªñüÿÿÿÿ8ûÀ ô1
+R
+java:S1874±"/Remove this use of "getYear"; it is deprecated.(íàªñüÿÿÿÿ8ûÀ ô1

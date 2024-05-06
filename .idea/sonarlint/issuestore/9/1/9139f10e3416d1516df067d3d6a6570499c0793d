@@ -1,0 +1,10 @@
+
+L
+java:S3740"/Provide the parametrized type for this generic.(ÆĞ¯¤8àÅéñ1
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(—‚®Ê8›Ÿêñ1
+£
+java:S11863"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(·òşÿÿÿÿ8óÅéñ1
+i
+java:S1128"LRemove this unused import 'edu.esprit.freelanceproposals.entities.Proposal'.(­Ûîç8ºŸêñ1
+p
+java:S1128"SRemove this unused import 'edu.esprit.freelanceproposals.services.ProposalService'.(ë£Õ»8ºŸêñ1
