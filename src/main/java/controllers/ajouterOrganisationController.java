@@ -221,56 +221,7 @@ Organisation organisationajoutee;
 
 
 
-   @FXML
-    public static void sendEmail(String to, String subject, String body) {
-
-        // Paramètres SMTP de Gmail
-        String username = "asmaboussaada0@gmail.com";
-        String password = "asma55147032";
-
-        // Configuration des propriétés
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        // Création de la session
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-            // Création du message
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(MimeMessage.RecipientType.TO,
-                    InternetAddress.parse(to));
-            message.setSubject(subject);
-            message.setText(body);
-
-            // Envoi du message
-            Transport.send(message);
-
-            // Affichage d'une confirmation
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Confirmation");
-            alert.setHeaderText(null);
-            alert.setContentText("Email envoyé avec succès !");
-            alert.showAndWait();
-
-        } catch (Exception e) {
-            // En cas d'erreur
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erreur");
-            alert.setHeaderText(null);
-            alert.setContentText("Une erreur s'est produite lors de l'envoi de l'email : " + e.getMessage());
-            alert.showAndWait();
-        }
-    }
+  
     @FXML
     private void handleSendButtonClick(ActionEvent event) {
         sendEmail("bsdasma13@gmail.com", "Confirmation", "Votre email a été confirmé avec succès.");
