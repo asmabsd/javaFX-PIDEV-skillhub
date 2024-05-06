@@ -162,6 +162,26 @@ Organisation organisationajoutee;
 
     // Le numéro Twilio à partir duquel vous envoyez le SMS
     public static final String TWILIO_NUMBER = "+13345186510";
+@FXML
+    public  void envoyerSMS(ActionEvent event) {
+       Integer numeroTelephone=organisationajoutee.getTelephone();
+        Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+        //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+
+
+
+        try {
+            Message message= Message.creator(
+                    new com.twilio.type.PhoneNumber("+21653770600"),
+                    new com.twilio.type.PhoneNumber("+13345186510"),
+                    "l'organisation est ajouté avec succes "
+
+            ).create();
+        } catch (TwilioException e) {
+            e.printStackTrace();
+            // Gérer les erreurs lors de l'envoi du SMS
+        }}
+
 
 
 
