@@ -8,7 +8,11 @@ import utils.MyDatabase;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ServiceContrat implements IService<Contrat> {
     Connection connection = MyDatabase.getInstance().getConnection();
@@ -24,20 +28,23 @@ public class ServiceContrat implements IService<Contrat> {
         System.out.println("Contrat ajouté avec succès.");
     }
 
+
     public void modifier(Contrat contrat) throws SQLException {
         String req = "UPDATE contrat SET date_debut=?, date_fin=?, montant=?, statut=?, projet=?, freelancer=?, organisation_id=?, user_id=?, date_creation=?, description=? WHERE id=?";
         PreparedStatement preparedStatement = this.connection.prepareStatement(req);
-        preparedStatement.setInt(1, contrat.getId());
-        preparedStatement.setDate(2, contrat.getDate_debut());
-        preparedStatement.setDate(3, contrat.getDate_fin());
-        preparedStatement.setInt(4, contrat.getMontant());
-        preparedStatement.setString(5, contrat.getStatut());
-        preparedStatement.setString(6, contrat.getProjet());
-        preparedStatement.setString(7, contrat.getFreelancer());
-        preparedStatement.setInt(8, contrat.getOrganisation_id().getId());
-        preparedStatement.setInt(9, contrat.getUser_id().getId());
-        preparedStatement.setDate(10, contrat.getDate_creation());
-        preparedStatement.setString(11, contrat.getDescription());
+        preparedStatement.setDate(1, contrat.getDate_debut());
+        preparedStatement.setDate(2, contrat.getDate_fin());
+        preparedStatement.setInt(3, contrat.getMontant());
+        preparedStatement.setString(4, contrat.getStatut());
+        preparedStatement.setString(5, contrat.getProjet());
+        preparedStatement.setString(6, contrat.getFreelancer());
+        preparedStatement.setInt(7, contrat.getOrganisation_id().getId());
+        preparedStatement.setInt(8, contrat.getUser_id().getId());
+        preparedStatement.setDate(9, contrat.getDate_creation());
+        preparedStatement.setString(10, contrat.getDescription());
+
+        preparedStatement.setInt(11, contrat.getId());
+
         preparedStatement.executeUpdate();
     }
 
@@ -71,4 +78,69 @@ public class ServiceContrat implements IService<Contrat> {
 
         return contrats;
     }
+
+
+
+        public Map<Integer, Integer> getStatsByYear() throws SQLException {
+            Map<Integer, Integer> contratParAnnee = new HashMap<>();
+
+            String req = "SELECT YEAR(date_debut) AS annee, COUNT(*) AS nombre_contrats FROM contrat GROUP BY YEAR(date_debut)";
+            try (Statement statement = connection.createStatement();
+                 ResultSet rs = statement.executeQuery(req)) {
+
+                while (rs.next()) {
+                    int annee = rs.getInt("annee");
+                    int nombreContrats = rs.getInt("nombre_contrats");
+                    contratParAnnee.put(annee, nombreContrats);
+                }
+            }
+
+            return contratParAnnee;
+        }
+
+    public Contrat getOneById(int id) {
+        String req = "SELECT * FROM contrat WHERE id=?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(req);
+            ps.setInt(1, id);
+            ResultSet res = ps.executeQuery();
+            if (res.next()) {
+
+                Date date_debut = res.getDate("date_debut");
+                Date date_fin = res.getDate("date_fin");
+                Integer montant = res.getInt("montant");
+                String statut = res.getString("statut");
+                String projet = res.getString("projet");
+                String freelancer = res.getString("freelancer");
+                int organisation_id = res.getInt("organisation_id");
+                int user_id = res.getInt("user_id");
+                Date date_creation = res.getDate("date_creation");
+                String description = res.getString("description");
+
+                // Récupération de l'objet Organisation à partir de son ID
+                ServiceOrganisation so = new ServiceOrganisation();
+                Organisation organisation = so.getOneById(organisation_id);
+ServiceUser su=new ServiceUser();
+User user=su.getOneById(user_id);
+                // Création de l'objet Contrat avec les données récupérées
+                Contrat contrat = new Contrat(id, date_debut, date_fin, montant, statut, projet, freelancer, organisation, user, date_creation, description);
+
+                return contrat;
+            }
+            else {return null;}
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiceContrat.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+
+
 }
+
+
+
+
+
+

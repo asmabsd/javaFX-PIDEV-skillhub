@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -30,8 +29,10 @@
 
     <TextField fx:id="domaine_activiteTf" layoutX="14.0" layoutY="270.0" promptText="domaine_activite" />
 
-    <Button fx:id="buttonInsert" layoutX="434.0" layoutY="295.0" mnemonicParsing="false" onAction="#InsererOrganisation" text="Insérer" />
-    <Button fx:id="buttonAffiche" layoutX="497.0" layoutY="295.0" mnemonicParsing="false" onAction="#naviguez" text="Afficher" />
+    <Button fx:id="buttonInsert" layoutX="77.0" layoutY="335.0" mnemonicParsing="false" onAction="#InsererOrganisation" text="Insérer" />
+    <Button fx:id="buttonAffiche" layoutX="164.0" layoutY="335.0" mnemonicParsing="false" onAction="#naviguez" text="Afficher" />
+    <Button fx:id="buttonConfirmerparsms" layoutX="89.0" layoutY="399.0" mnemonicParsing="false" onAction="#envoyerSMS" text="Confirmer par sms" />
+    <Button fx:id="buttonsendemail" layoutX="226.0" layoutY="399.0" mnemonicParsing="false" onAction="#handleSendButtonClick" text="Confirmer par email" />
 
 
 

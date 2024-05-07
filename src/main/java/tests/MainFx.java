@@ -17,7 +17,7 @@ import java.sql.Connection;
 
 public class MainFx extends Application {
 
-    public static void main(String[] args) {
+   /* public static void main(String[] args) {
         launch(args);
     }
 
@@ -25,12 +25,32 @@ public class MainFx extends Application {
         Connection c = MyDatabase.getInstance().getConnection();
 
         try {
-            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/ajouterOrganisation.fxml"));
+            FXMLLoader loader = new FXMLLoader(this.getClass().getResource("statscontrat.fxml"));
             Parent root = (Parent)loader.load();
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("SKILLHUB | FREELANCE APP ");
             primaryStage.show();
+        } catch (IOException var6) {
+            System.err.println(var6.getMessage());
+        }
+
+    }*/
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Connection c = MyDatabase.getInstance().getConnection();
+        try {
+
+            Parent root = FXMLLoader.load(getClass().getResource("/ajouterOrganisation.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
         } catch (IOException var6) {
             System.err.println(var6.getMessage());
         }

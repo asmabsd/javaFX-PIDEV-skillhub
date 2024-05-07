@@ -1,14 +1,10 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package services;
 
 import entities.User;
 import utils.MyDatabase;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -130,5 +126,13 @@ public class ServiceUser implements IService<User> {
         }
 
         return users;
+    }
+    public List<Integer> getAllIds() throws SQLException {
+        List<Integer> ids = new ArrayList<>();
+        Set<User> users = getAll();
+        for (User user : users) {
+            ids.add(user.getId());
+        }
+        return ids;
     }
 }

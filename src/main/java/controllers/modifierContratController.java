@@ -1,18 +1,43 @@
  package controllers;
 
-import entities.Contrat;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.*;
-import services.ServiceContrat;
+ import entities.Contrat;
+ import entities.Organisation;
+ import entities.User;
+ import javafx.event.ActionEvent;
+ import javafx.fxml.FXML;
+ import javafx.fxml.FXMLLoader;
+ import javafx.scene.Parent;
+ import javafx.scene.control.*;
+ import services.ServiceContrat;
+ import services.ServiceOrganisation;
+ import services.ServiceUser;
 
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
+ import javax.mail.*;
+ import javax.mail.internet.InternetAddress;
+ import javax.mail.internet.MimeMessage;
+ import java.io.IOException;
+ import java.sql.Date;
+ import java.sql.SQLException;
+ import java.time.LocalDateTime;
+ import java.util.Optional;
+ import java.util.Properties;
 
-public class modifierContratController {
+ public class modifierContratController {
+    public Button buttonmiseajour;
+     public Button sendmail;
+
+
+     // @FXML
+    //private TextField statutTf;
+    
+   // @FXML
+    //private TextField organisation_idTf;
+    //@FXML
+    //private TextField user_idTf;
+    
+
+    @FXML
+    private ComboBox<String> statutComboBox;
 
     public Button buttonUpdate;
     public Button buttonCancel;
@@ -21,8 +46,8 @@ public class modifierContratController {
 
     @FXML
     private TextField montantTf;
-    @FXML
-    private TextField statutTf;
+   // @FXML
+    //private TextField statutTf;
     @FXML
     private TextField projetTf;
     @FXML
@@ -42,6 +67,7 @@ public class modifierContratController {
     private Contrat currentContrat;
     private Contrat c;
     private final ServiceContrat sc = new ServiceContrat();
+    private final ServiceOrganisation so=new ServiceOrganisation();
     @FXML
     private TableView<Contrat> tableView;
     private Label welcomeLBL;
@@ -52,23 +78,91 @@ public class modifierContratController {
     private boolean validateFields() {
         return !descriptionTf.getText().isEmpty() &&
                 !freelancerTf.getText().isEmpty() &&
-                !statutTf.getText().isEmpty() &&
+                //!statutTf.getText().isEmpty() &&
                 !projetTf.getText().isEmpty() &&
                 !montantTf.getText().isEmpty() &&
                 date_finTf.getValue() != null &&
                 date_debutTf.getValue() != null &&
                 date_creationTf.getValue()!=null ;
     }
+
+    ServiceUser su=new ServiceUser();
+
     @FXML
-    void updateContrat() {
+    void updateContrat(ActionEvent actionEvent) {
         if (validateFields()) {
             try {
                 // Récupérer les valeurs des champs
                 int montant = Integer.parseInt(montantTf.getText());
                 String freelancer = freelancerTf.getText();
                 String description = descriptionTf.getText();
-                String statut = statutTf.getText();
+               statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+
+
+                statutComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        // Si la nouvelle valeur est différente de la valeur précédente
+                        if (!newValue.equals(oldValue)) {
+                            // Envoyer un e-mail
+                            try {
+                                sendEmail2("exemple@email.com");
+                            } catch (MessagingException e) {
+                                e.printStackTrace();
+                                // Gérer les erreurs d'envoi d'e-mail
+                                showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'envoi de l'e-mail de notification.");
+                            }
+                        }
+                    }
+                });
+                Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmationAlert.setTitle("Confirmation");
+                confirmationAlert.setHeaderText("Voulez-vous envoyer un e-mail de confirmation ?");
+                ButtonType sendEmailButton = new ButtonType("Envoyer un e-mail");
+                ButtonType cancelButton = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+                confirmationAlert.getButtonTypes().setAll(sendEmailButton, cancelButton);
+
+                Optional<ButtonType> result = confirmationAlert.showAndWait();
+                if (result.isPresent() && result.get() == sendEmailButton) {
+                    // Afficher la boîte de dialogue pour saisir l'adresse e-mail
+                    TextInputDialog emailDialog = new TextInputDialog();
+                    emailDialog.setTitle("Confirmation de l'envoi d'e-mail");
+                    emailDialog.setHeaderText("Entrez votre adresse e-mail pour recevoir une confirmation :");
+                    emailDialog.setContentText("E-mail :");
+
+                    Optional<String> emailResult = emailDialog.showAndWait();
+                    emailResult.ifPresent(email -> {
+                        try {
+                            sendEmail2(email);
+                        } catch (MessagingException e) {
+                            e.printStackTrace();
+                            // Gérer les erreurs d'envoi d'e-mail
+                            Alert errorAlert = new Alert(Alert.AlertType.ERROR);
+                            errorAlert.setTitle("Erreur");
+                            errorAlert.setHeaderText("Erreur lors de l'envoi de l'e-mail de confirmation");
+                            errorAlert.setContentText("Veuillez réessayer plus tard.");
+                            errorAlert.showAndWait();
+                        }
+                    });
+                }
+
+                // Afficher une confirmation que le contrat a été inséré avec succès
+                Alert successAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                successAlert.setTitle("Succès");
+                successAlert.setHeaderText("Contrat inséré avec succès");
+                successAlert.showAndWait();
+
+
+
+
+                String statut=statutComboBox.getValue();
                 String projet = projetTf.getText();
+                //Organisation organisation_id=so.getOneById(organisation_idTf);
+
+Integer user_id=Integer.parseInt(user_idTf.getText());
+Integer organisation_id=Integer.parseInt(organisation_idTf.getText());
+User user =su.getOneById(user_id);
+                Organisation organisation=so.getOneById(organisation_id);
+
 
                 Date date_debut = null;
                 Date date_fin = null;
@@ -109,7 +203,11 @@ public class modifierContratController {
                     showAlert(Alert.AlertType.WARNING, "Erreur", "La description doit contenir au moins 5 caractères.");
                     return;
                 }
-
+                Date dateActuelle = new Date(System.currentTimeMillis());
+                if (date_fin.before(dateActuelle)) {
+                    // Désactiver la modification du statut
+                    statutComboBox.setDisable(true);
+                }
                 // Mettre à jour l'objet Contrat actuel avec les nouvelles valeurs
                 currentContrat.setMontant(montant);
                 currentContrat.setFreelancer(freelancer);
@@ -119,23 +217,25 @@ public class modifierContratController {
                 currentContrat.setDate_debut(date_debut);
                 currentContrat.setDate_fin(date_fin);
                 currentContrat.setDate_creation(date_creation);
-
+                  currentContrat.setUser_id(user);
+                  currentContrat.setOrganisation_id(organisation);
                 // Mettre à jour les champs dans l'interface graphique
                 montantTf.setText(String.valueOf(currentContrat.getMontant()));
                 freelancerTf.setText(currentContrat.getFreelancer());
                 descriptionTf.setText(currentContrat.getDescription());
-                statutTf.setText(currentContrat.getStatut());
+                statutComboBox.setValue(currentContrat.getStatut());
+                statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
                 projetTf.setText(currentContrat.getProjet());
                 date_debutTf.setValue(currentContrat.getDate_debut().toLocalDate());
                 date_finTf.setValue(currentContrat.getDate_fin().toLocalDate());
                 date_creationTf.setValue(currentContrat.getDate_creation().toLocalDate());
-
+                  organisation_idTf.setText(String.valueOf(currentContrat.getOrganisation_id()));
+                user_idTf.setText(String.valueOf(currentContrat.getUser_id()));
+                selectedContrat =currentContrat;
                 // Appeler la méthode modifier du service Contrat
                 sc.modifier(currentContrat);
                 showAlert(Alert.AlertType.INFORMATION, "Contrat Mis à Jour", "Le contrat a été mis à jour avec succès.");
-            } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.ERROR, "Erreur", "Le montant doit être un entier.");
-            } catch (SQLException e) {
+            }  catch (SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
             }
         } else {
@@ -145,10 +245,112 @@ public class modifierContratController {
 
 
 
+    /*@FXML
+     void updateContrat(ActionEvent actionEvent) {
+         if (validateFields()) {
+             try {
+                 // Récupérer les valeurs des champs
+                 int montant = Integer.parseInt(montantTf.getText());
+                 String freelancer = freelancerTf.getText();
+                 String description = descriptionTf.getText();
+                 statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+
+                 // Ajouter un écouteur de propriété pour détecter les modifications de statut
+                 statutComboBox.valueProperty().addListener((observable, oldValue, newValue) -> {
+                     if (newValue != null && !newValue.equals(oldValue)) {
+                         try {
+                             // Envoyer un e-mail de notification
+                             sendEmail2("exemple@email.com");
+                         } catch (MessagingException e) {
+                             e.printStackTrace();
+                             // Gérer les erreurs d'envoi d'e-mail
+                             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'envoi de l'e-mail de notification.");
+                         }
+                     }
+                 });
+
+                 // Afficher une boîte de dialogue de confirmation pour envoyer un e-mail
+                 Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                 confirmationAlert.setTitle("Confirmation");
+                 confirmationAlert.setHeaderText("Voulez-vous envoyer un e-mail de confirmation ?");
+                 ButtonType sendEmailButton = new ButtonType("Envoyer un e-mail");
+                 ButtonType cancelButton = new ButtonType("Annuler", ButtonBar.ButtonData.CANCEL_CLOSE);
+                 confirmationAlert.getButtonTypes().setAll(sendEmailButton, cancelButton);
+
+                 Optional<ButtonType> result = confirmationAlert.showAndWait();
+                 if (result.isPresent() && result.get() == sendEmailButton) {
+                     // Afficher une boîte de dialogue pour saisir l'adresse e-mail
+                     TextInputDialog emailDialog = new TextInputDialog();
+                     emailDialog.setTitle("Confirmation de l'envoi d'e-mail");
+                     emailDialog.setHeaderText("Entrez votre adresse e-mail pour recevoir une confirmation :");
+                     emailDialog.setContentText("E-mail :");
+
+                     Optional<String> emailResult = emailDialog.showAndWait();
+                     emailResult.ifPresent(email -> {
+                         try {
+                             // Envoyer l'e-mail de confirmation
+                             sendEmail2(email);
+                         } catch (MessagingException e) {
+                             e.printStackTrace();
+                             // Gérer les erreurs d'envoi d'e-mail
+                             showAlert(Alert.AlertType.ERROR, "Erreur", "Erreur lors de l'envoi de l'e-mail de confirmation.");
+                         }
+                     });
+                 }
+
+                 // Récupérer les autres valeurs des champs
+                 String statut = statutComboBox.getValue();
+                 String projet = projetTf.getText();
+                 Integer user_id = Integer.parseInt(user_idTf.getText());
+                 Integer organisation_id = Integer.parseInt(organisation_idTf.getText());
+                 User user = su.getOneById(user_id);
+                 Organisation organisation = so.getOneById(organisation_id);
+                 Date date_debut = Date.valueOf(date_debutTf.getValue());
+                 Date date_fin = Date.valueOf(date_finTf.getValue());
+                 Date date_creation = Date.valueOf(date_creationTf.getValue());
+
+                 // Mettre à jour l'objet Contrat actuel avec les nouvelles valeurs
+                 currentContrat.setMontant(montant);
+                 currentContrat.setFreelancer(freelancer);
+                 currentContrat.setDescription(description);
+                 currentContrat.setStatut(statut);
+                 currentContrat.setProjet(projet);
+                 currentContrat.setDate_debut(date_debut);
+                 currentContrat.setDate_fin(date_fin);
+                 currentContrat.setDate_creation(date_creation);
+                 currentContrat.setUser_id(user);
+                 currentContrat.setOrganisation_id(organisation);
+
+                 // Mettre à jour les champs dans l'interface graphique
+                 montantTf.setText(String.valueOf(currentContrat.getMontant()));
+                 freelancerTf.setText(currentContrat.getFreelancer());
+                 descriptionTf.setText(currentContrat.getDescription());
+                 statutComboBox.setValue(currentContrat.getStatut());
+                 projetTf.setText(currentContrat.getProjet());
+                 date_debutTf.setValue(currentContrat.getDate_debut().toLocalDate());
+                 date_finTf.setValue(currentContrat.getDate_fin().toLocalDate());
+                 date_creationTf.setValue(currentContrat.getDate_creation().toLocalDate());
+                 organisation_idTf.setText(String.valueOf(currentContrat.getOrganisation_id()));
+                 user_idTf.setText(String.valueOf(currentContrat.getUser_id()));
+
+                 // Appeler la méthode modifier du service Contrat
+                 //sc.modifier(currentContrat);
+sc.modifier(currentContrat);
+                 // Afficher une alerte pour confirmer la mise à jour du contrat
+                 showAlert(Alert.AlertType.INFORMATION, "Contrat Mis à Jour", "Le contrat a été mis à jour avec succès.");
+             } catch (SQLException e) {
+                 showAlert(Alert.AlertType.ERROR, "Erreur", e.getMessage());
+             }
+         } else {
+             showAlert(Alert.AlertType.WARNING, "Champs Requis", "Veuillez remplir tous les champs requis.");
+         }
+     }*/
 
 
 
-    private void showAlert(Alert.AlertType alertType, String title, String content) {
+
+
+     private void showAlert(Alert.AlertType alertType, String title, String content) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -162,7 +364,7 @@ public class modifierContratController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/afficherContrat.fxml"));
             Parent root = loader.load();
             afficherContratController acc = loader.getController();
-            acc.setData(statutTf.getText()); // Vous pouvez passer des données si nécessaire
+            acc.setData(projetTf.getText()); // Vous pouvez passer des données si nécessaire
             montantTf.getScene().setRoot(root);
         } catch (IOException e) {
             System.err.println(e.getMessage());
@@ -238,11 +440,7 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
             }
 
             // Vérifiez chaque champ avant de l'utiliser
-            if (statutTf != null) {
-                statutTf.setText(c.getStatut());
-            } else {
-                System.out.println("statutTf est null, vérifiez l'initialisation.");
-            }
+
 
             if (projetTf != null) {
                 projetTf.setText(c.getProjet());
@@ -255,8 +453,46 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
             } else {
                 System.out.println("freelancerTf est null, vérifiez l'initialisation.");
             }
+            if (statutComboBox != null) {
+                // Désactiver la modification du statut si la date de fin est antérieure à la date actuelle
+                Date dateActuelle = new Date(System.currentTimeMillis());
+                if (c.getDate_fin().before(dateActuelle)) {
+                    statutComboBox.setDisable(true);
+                    statutComboBox.setValue(c.getStatut()); // Utiliser le statut du contrat sélectionné
+                } else {
+                    statutComboBox.setDisable(false);
+                    statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+                }
+            } else {
+                System.out.println("statutComboBox est null, vérifiez l'initialisation.");
+            }
+
 
             if (organisation_idTf != null) {
+                organisation_idTf.setText(String.valueOf(c.getOrganisation_id().getId()));
+            } else {
+                System.out.println("organisation_idTf est null, vérifiez l'initialisation.");
+            }
+                        if (user_idTf != null) {
+                            user_idTf.setText(String.valueOf(c.getUser_id().getId()));
+                        } else {
+                            System.out.println("user_idTf est null, vérifiez l'initialisation.");
+                        }
+
+
+
+
+//organisationComboBox.setDisable(false);
+               // organisationComboBox.setValue(c.getOrganisation_id().getId());
+                //statutComboBox.getItems().addAll("Terminé", "En cours", "Annulé");
+
+
+
+
+
+
+
+            /* if (organisation_idTf != null) {
                 organisation_idTf.setText(String.valueOf(c.getOrganisation_id()));
             } else {
                 System.out.println("organisation_idTf est null, vérifiez l'initialisation.");
@@ -266,7 +502,7 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
                 user_idTf.setText(String.valueOf(c.getUser_id()));
             } else {
                 System.out.println("user_idTf est null, vérifiez l'initialisation.");
-            }
+            }*/
 
             if (descriptionTf != null) {
                 descriptionTf.setText(c.getDescription());
@@ -304,7 +540,29 @@ Date date_creation =Date.valueOf(modifiedate_creationTf.getValue());
     public void setData(String text) {
         this.welcomeLBL.setText("Welcome " + text);
     }
+   @FXML
+   private void sendEmail2(String email) throws MessagingException {
+         System.out.println("Sending email to " + email);
+         Properties properties = new Properties();
+         properties.put("mail.smtp.host", "smtp.gmail.com");
+         properties.put("mail.smtp.port", "587");
+         properties.put("mail.smtp.auth", "true");
+         properties.put("mail.smtp.starttls.enable", "true");
+         Authenticator authenticator = new Authenticator() {
+             @Override
+             protected PasswordAuthentication getPasswordAuthentication() {
+                 return new PasswordAuthentication("atouanirana@gmail.com", "eafczhobtosqclvw");
+             }
+         };
+         Session session = Session.getDefaultInstance(properties, authenticator);
 
+         MimeMessage message = new MimeMessage(session);
+         message.setFrom(new InternetAddress("bsdasma13@gmail.com"));
+         message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+         message.setSubject("Contrat marqué terminé");
+         message.setText("Votre Contrat  "+sc.getOneById(selectedContrat.getId()).getProjet()+" statut modifié avec succes "+ LocalDateTime.now());
+         Transport.send(message);
+     }
 
 
 
