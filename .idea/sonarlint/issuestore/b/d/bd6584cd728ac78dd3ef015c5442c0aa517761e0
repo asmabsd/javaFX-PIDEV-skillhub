@@ -1,6 +1,10 @@
 
 L
-java:S3740"/Provide the parametrized type for this generic.(©―‡8…ÿϊπ1
+java:S3740 "/Provide the parametrized type for this generic.(©―‡8¶µντ1
 Q
-java:S3740"/Provide the parametrized type for this generic.(§®—ϊÿÿÿÿ8†ÿϊπ1
-i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(αυΗΆ8‡ÿϊπ1
+java:S3740""/Provide the parametrized type for this generic.(§®—ϊÿÿÿÿ8¶µντ1
+i	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(αυΗΆ8·µντ1
+K	java:S108€")Either remove or fill this block of code.(ΜΧ›’ωÿÿÿÿ8ήµντ1
+M	java:S106›"+Replace this use of System.out by a logger.(µΉ™φψÿÿÿÿ8ΰµντ1
+Q
+java:S1144".Remove this unused private "sendEmail" method.(¶…™€ϋÿÿÿÿ8γµντ1

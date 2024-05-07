@@ -1,15 +1,17 @@
 
 L
-java:S3740"/Provide the parametrized type for this generic.(״ֲֵ8‚·ררנ1
+java:S3740"/Provide the parametrized type for this generic.(״ֲֵ8£סתמפ1
 
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬חז8ׁÜָÿנ1
+java:S1186…"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¬חז8¸סתמפ1
 D
-java:S1905'"'Remove this unnecessary cast to "List".(ü¶ׁו8©›תנ1
+java:S1905+"'Remove this unnecessary cast to "List".(ü¶ׁו8÷סתמפ1
 b
-java:S1117*"FRename "postedJobsListView" which hides the field declared at line 20.(ֹד»{8©›תנ1
+java:S1117."FRename "postedJobsListView" which hides the field declared at line 21.(ֹד»{8»סתמפ1
 f
-java:S6355€"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(ץˆת8צÜָÿנ1
+java:S6355„"HAdd 'since' and/or 'forRemoval' arguments to the @Deprecated annotation.(ץˆת8ַסתמפ1
 S
-java:S1133"5Do not forget to remove this deprecated code someday.(¬חז8צÜָÿנ1
+java:S1133…"5Do not forget to remove this deprecated code someday.(¬חז8ַסתמפ1
 F
-java:S1123"(Add the missing @deprecated Javadoc tag.(¬חז8צÜָÿנ1
+java:S1123…"(Add the missing @deprecated Javadoc tag.(¬חז8ַסתמפ1
+c
+java:S1117”"FRename "postedJobsListView" which hides the field declared at line 21.(ֹד»{8ָסתמפ1

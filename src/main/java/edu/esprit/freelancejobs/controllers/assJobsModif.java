@@ -16,8 +16,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+
+
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 public class assJobsModif
 {
@@ -118,7 +123,24 @@ public class assJobsModif
         assignedJob.setEndDate(Date.valueOf(endDateInput.getValue()));
 
         assignedJobsService.update(assignedJob);
-
+        if (Objects.equals(assignedJob.getStatus(), "Completed")){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Reservation Confirmation");
+            alert.setHeaderText("Enter your email to confirm the reservation:");
+            TextField emailField = new TextField();
+            emailField.setPromptText("Email");
+            alert.getDialogPane().setContent(emailField);
+            alert.getButtonTypes().setAll(ButtonType.OK, ButtonType.CANCEL);
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                String email = emailField.getText();
+                try {
+                    sendEmail(email,assignedJob);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
         Alert infoAlert = new Alert(Alert.AlertType.INFORMATION);
         infoAlert.setTitle("Operation Completed");
         infoAlert.setHeaderText("Assigned job updated successfully.");
@@ -142,5 +164,26 @@ public class assJobsModif
 
         return validationErrors;
     }
+    private void sendEmail(String email,AssignedJobs assignedJob) throws MessagingException {
+        System.out.println("Sending email to " + email);
+        Properties properties = new Properties();
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.port", "587");
+        properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
+        Authenticator authenticator = new Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication("atouanirana@gmail.com", "eafczhobtosqclvw");
+            }
+        };
+        Session session = Session.getDefaultInstance(properties, authenticator);
 
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress("atouanirana@address"));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+        message.setSubject("Job marked complete");
+        message.setText("Your job "+postedJobService.getOneById(assignedJob.getNoId()).getTitle()+" has been marked complete on "+ LocalDateTime.now());
+        Transport.send(message);
+    }
 }

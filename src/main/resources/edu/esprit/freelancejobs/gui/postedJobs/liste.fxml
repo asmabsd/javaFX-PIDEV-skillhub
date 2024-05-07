@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -80,11 +79,11 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                     <children>
-                        <TextField prefHeight="26.0" prefWidth="230.0" promptText="Search" style="-fx-background-color: #FFFFFF; -fx-text-fill: #808080; -fx-border-color: #808080;" HBox.hgrow="NEVER">
-                            <HBox.margin>
-                                <Insets left="10.0" top="11.0" />
-                            </HBox.margin>
-                        </TextField>
+                  <Button fx:id="sortBtn" mnemonicParsing="false" onAction="#sort" text="Sort">
+                     <HBox.margin>
+                        <Insets left="20.0" top="15.0" />
+                     </HBox.margin>
+                  </Button>
                     </children>
                 </HBox>
             </children>

@@ -11,10 +11,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class PostedFrontListe
@@ -34,6 +37,8 @@ public class PostedFrontListe
     private Button gotoJobs;
     @javafx.fxml.FXML
     private Button addBtn;
+    @javafx.fxml.FXML
+    private TextField searchField;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -49,9 +54,30 @@ public class PostedFrontListe
                 } else {
                     // Display the details for the PostedJobs in your ListView
                     setText(job.getTitle() + " - Budget: " + job.getBudgetEstimate() + " - " + job.getStatus());
+                    // Create a button for generating QR code
+                    Button generateQRButton = new Button("Generate QR");
+                    generateQRButton.setOnAction(event -> {
+                        try {
+                            generateQRCode(job);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    // Add the button to the cell
+                    setGraphic(new HBox(generateQRButton));
                 }
             }
         });
+    }
+
+    private void generateQRCode(PostedJobs job) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/edu/esprit/freelancejobs/gui/assignedJobs/QRFront.fxml"));
+        Parent root = loader.load();
+        QRFrontListe qrController = loader.getController();
+        qrController.setObjectToSend(job);
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     @javafx.fxml.FXML
@@ -83,5 +109,42 @@ public class PostedFrontListe
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
         stage.show();
+    }
+
+    @javafx.fxml.FXML
+    public void search(Event event) {
+        String searchTerm = searchField.getText().trim().toLowerCase();
+        List<PostedJobs> jobs = postedJobService.getAll();
+        List<PostedJobs> searchRes = new ArrayList<>();
+        for (PostedJobs job:jobs){
+            if (job.getTitle().toLowerCase().contains(searchTerm))
+                searchRes.add(job);
+        }
+        postedJobsListView.getItems().clear();
+        postedJobsListView.setItems(FXCollections.observableArrayList(searchRes));
+
+        postedJobsListView.setCellFactory(postedJobsListView -> new ListCell<PostedJobs>() {
+            @Override
+            protected void updateItem(PostedJobs job, boolean empty) {
+                super.updateItem(job, empty);
+                if (empty || job == null) {
+                    setText(null);
+                } else {
+                    // Display the details for the PostedJobs in your ListView
+                    setText(job.getTitle() + " - Budget: " + job.getBudgetEstimate() + " - " + job.getStatus());
+                    // Create a button for generating QR code
+                    Button generateQRButton = new Button("Generate QR");
+                    generateQRButton.setOnAction(event -> {
+                        try {
+                            generateQRCode(job);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                    // Add the button to the cell
+                    setGraphic(new HBox(generateQRButton));
+                }
+            }
+        });
     }
 }

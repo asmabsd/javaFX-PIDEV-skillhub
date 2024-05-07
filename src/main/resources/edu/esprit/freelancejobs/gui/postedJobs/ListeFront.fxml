@@ -28,7 +28,7 @@
                     <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
                         <children>
                             <Button fx:id="addBtn" mnemonicParsing="false" onAction="#gotoAjouter" text="Ajouter un travail" />
-                            <TextField prefHeight="26.0" prefWidth="230.0" promptText="Search" style="-fx-background-color: #FFFFFF; -fx-text-fill: #808080; -fx-border-color: #808080;" HBox.hgrow="NEVER">
+                            <TextField fx:id="searchField" onKeyReleased="#search" prefHeight="26.0" prefWidth="230.0" promptText="Search" style="-fx-background-color: #FFFFFF; -fx-text-fill: #808080; -fx-border-color: #808080;" HBox.hgrow="NEVER">
                                 <HBox.margin>
                                     <Insets left="10.0" top="11.0" />
                                 </HBox.margin>

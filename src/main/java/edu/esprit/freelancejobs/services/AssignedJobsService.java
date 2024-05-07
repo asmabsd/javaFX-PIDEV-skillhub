@@ -31,7 +31,7 @@ public class AssignedJobsService implements IassignedJobsService {
 
     @Override
     public void add(AssignedJobs aj) {            
-        String q = "INSERT INTO assigned_jobs (id, start_date, end_date, status, no_id) VALUES (?, ?, ?, ?, ?)";       
+        String q = "INSERT INTO assigned_jobs (id, start_date, end_date, status, the_job_id) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement preparedStatement = cnx.prepareStatement(q);
             preparedStatement.setInt(1, aj.getId());
@@ -48,7 +48,7 @@ public class AssignedJobsService implements IassignedJobsService {
 
     @Override
     public void update(AssignedJobs aj) {
-        String q = "UPDATE assigned_jobs SET start_date=?, end_date=?, status=?, no_id=? WHERE id=?";
+        String q = "UPDATE assigned_jobs SET start_date=?, end_date=?, status=?, the_job_id=? WHERE id=?";
         try {
             PreparedStatement preparedStatement = cnx.prepareStatement(q);
             preparedStatement.setDate(1, aj.getStartDate());
@@ -90,7 +90,7 @@ public class AssignedJobsService implements IassignedJobsService {
                         resultSet.getDate("start_date"),
                         resultSet.getDate("end_date"),
                         resultSet.getString("status"),
-                        resultSet.getInt("no_id")
+                        resultSet.getInt("the_job_id")
                 );
             } else {
                 return null;
@@ -115,7 +115,7 @@ public class AssignedJobsService implements IassignedJobsService {
                         resultSet.getDate("start_date"),
                         resultSet.getDate("end_date"),
                         resultSet.getString("status"),
-                        resultSet.getInt("no_id")
+                        resultSet.getInt("the_job_id")
                 ));
             }
             return assignedJobs;

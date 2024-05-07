@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +34,9 @@ public class PstedListe
     private Label btnAjoutComm;
     @javafx.fxml.FXML
     private Label btnListeProp;
+    @javafx.fxml.FXML
+    private Button sortBtn;
+    boolean ascendingOrder = false;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -127,5 +131,31 @@ public class PstedListe
 
     @Deprecated
     public void gotoApply(ActionEvent actionEvent) {
+    }
+
+    @javafx.fxml.FXML
+    public void sort(ActionEvent actionEvent) {
+        List<PostedJobs> jobs = postedJobService.getAll();
+        if (ascendingOrder) {
+            jobs.sort(Comparator.comparing(PostedJobs::getBudgetEstimate, Comparator.nullsFirst(Double::compareTo)));
+        } else {
+            jobs.sort(Comparator.comparing(PostedJobs::getBudgetEstimate, Comparator.nullsLast(Double::compareTo)).reversed());
+        }
+        this.ascendingOrder = !this.ascendingOrder;
+        postedJobsListView.getItems().clear();
+        postedJobsListView.setItems(FXCollections.observableArrayList(jobs));
+
+        postedJobsListView.setCellFactory(postedJobsListView -> new ListCell<PostedJobs>() {
+            @Override
+            protected void updateItem(PostedJobs job, boolean empty) {
+                super.updateItem(job, empty);
+                if (empty || job == null) {
+                    setText(null);
+                } else {
+                    // Display the details for the PostedJobs in your ListView
+                    setText(job.getTitle() + " - Budget: " + job.getBudgetEstimate() + " - " + job.getStatus());
+                }
+            }
+        });
     }
 }

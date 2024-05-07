@@ -39,3 +39,7 @@ z
 Jsrc/main/java/edu/esprit/freelancejobs/controllers/AssignedFrontListe.java,8\b\8b029f6f08a97a41299a1ba292286fea102f1904
 x
 Hsrc/main/java/edu/esprit/freelancejobs/controllers/PostedFrontAjout.java,7\c\7c10babae619944c17214b1c6e1deb4527602d1d
+p
+@src/main/java/edu/esprit/freelancejobs/services/QRGenerator.java,b\a\bad0ddf812bdf86ab44c07612e33c7198943fa83
+t
+Dsrc/main/java/edu/esprit/freelancejobs/controllers/QRFrontListe.java,4\7\473864093592371a67887fa200eef53880355bf5
